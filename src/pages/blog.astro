@@ -1,0 +1,103 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import BlogCard from '../components/BlogCard.astro';
+
+const allPosts = [
+  {
+    title: "Building Scalable APIs with Django REST Framework",
+    excerpt: "Learn how to create robust and scalable APIs using Django REST Framework, including authentication, pagination, and best practices for production deployment.",
+    date: "2024-01-15",
+    tags: ["Django", "Python", "API"],
+    slug: "django-rest-framework-guide",
+    readTime: "8 min read"
+  },
+  {
+    title: "Modern JavaScript: ES2024 Features You Should Know",
+    excerpt: "Explore the latest JavaScript features including array grouping, temporal API, and other ES2024 additions that will improve your development workflow.",
+    date: "2024-01-10",
+    tags: ["JavaScript", "ES2024"],
+    slug: "javascript-es2024-features",
+    readTime: "6 min read"
+  },
+  {
+    title: "Python Performance Optimization Techniques",
+    excerpt: "Discover advanced techniques to optimize Python code performance, from algorithmic improvements to using compiled extensions and profiling tools.",
+    date: "2024-01-05",
+    tags: ["Python", "Performance"],
+    slug: "python-performance-optimization",
+    readTime: "12 min read"
+  },
+  {
+    title: "Building Real-time Applications with WebSockets",
+    excerpt: "Learn how to implement real-time features in web applications using WebSockets, including chat systems, live updates, and collaborative features.",
+    date: "2024-01-01",
+    tags: ["JavaScript", "WebSockets", "Real-time"],
+    slug: "websockets-real-time-apps",
+    readTime: "10 min read"
+  },
+  {
+    title: "Database Design Patterns for Django Applications",
+    excerpt: "Master database design patterns, query optimization, and model relationships in Django to build efficient and maintainable applications.",
+    date: "2023-12-28",
+    tags: ["Django", "Database", "Python"],
+    slug: "django-database-patterns",
+    readTime: "15 min read"
+  },
+  {
+    title: "Containerizing Python Applications with Docker",
+    excerpt: "Complete guide to containerizing Python applications, from basic Dockerfile creation to multi-stage builds and production deployment strategies.",
+    date: "2023-12-25",
+    tags: ["Python", "Docker", "DevOps"],
+    slug: "python-docker-guide",
+    readTime: "11 min read"
+  }
+];
+
+const categories = ['All', 'Python', 'Django', 'JavaScript', 'DevOps', 'Database'];
+---
+
+<Layout title="Blog - TechBlog" description="Latest articles on web development, Python, Django, and modern JavaScript frameworks.">
+  <Header />
+  
+  <main class="pt-24 pb-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-space-100 mb-4">
+          Latest Articles
+        </h1>
+        <p class="text-xl text-space-300 max-w-2xl mx-auto">
+          Insights on modern web development, Python, Django, and cutting-edge JavaScript technologies.
+        </p>
+      </div>
+      
+      <div class="flex flex-wrap gap-2 justify-center mb-12">
+        {categories.map(category => (
+          <button class="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border border-space-700 text-space-300 hover:text-space-100 hover:border-space-600 hover:bg-space-800/50 first:bg-blue-600 first:border-blue-600 first:text-white">
+            {category}
+          </button>
+        ))}
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {allPosts.map(post => (
+          <BlogCard {...post} />
+        ))}
+      </div>
+      
+      <div class="text-center mt-12">
+        <button class="px-6 py-3 border border-space-700 hover:border-space-600 rounded-lg font-medium transition-all duration-200 hover:bg-space-800/50">
+          Load More Articles
+        </button>
+      </div>
+    </div>
+  </main>
+  
+  <footer class="border-t border-space-800/50 bg-space-950/80 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="text-center text-space-400">
+        <p>&copy; 2024 TechBlog. Built with Astro and TailwindCSS.</p>
+      </div>
+    </div>
+  </footer>
+</Layout>

@@ -1,0 +1,126 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import BlogCard from '../components/BlogCard.astro';
+
+const featuredPosts = [
+  {
+    title: "Building Scalable APIs with Django REST Framework",
+    excerpt: "Learn how to create robust and scalable APIs using Django REST Framework, including authentication, pagination, and best practices for production deployment.",
+    date: "2024-01-15",
+    tags: ["Django", "Python", "API"],
+    slug: "django-rest-framework-guide",
+    readTime: "8 min read"
+  },
+  {
+    title: "Modern JavaScript: ES2024 Features You Should Know",
+    excerpt: "Explore the latest JavaScript features including array grouping, temporal API, and other ES2024 additions that will improve your development workflow.",
+    date: "2024-01-10",
+    tags: ["JavaScript", "ES2024"],
+    slug: "javascript-es2024-features",
+    readTime: "6 min read"
+  },
+  {
+    title: "Python Performance Optimization Techniques",
+    excerpt: "Discover advanced techniques to optimize Python code performance, from algorithmic improvements to using compiled extensions and profiling tools.",
+    date: "2024-01-05",
+    tags: ["Python", "Performance"],
+    slug: "python-performance-optimization",
+    readTime: "12 min read"
+  },
+  {
+    title: "Building Real-time Applications with WebSockets",
+    excerpt: "Learn how to implement real-time features in web applications using WebSockets, including chat systems, live updates, and collaborative features.",
+    date: "2024-01-01",
+    tags: ["JavaScript", "WebSockets", "Real-time"],
+    slug: "websockets-real-time-apps",
+    readTime: "10 min read"
+  },
+  {
+    title: "Database Design Patterns for Django Applications",
+    excerpt: "Master database design patterns, query optimization, and model relationships in Django to build efficient and maintainable applications.",
+    date: "2023-12-28",
+    tags: ["Django", "Database", "Python"],
+    slug: "django-database-patterns",
+    readTime: "15 min read"
+  },
+  {
+    title: "Containerizing Python Applications with Docker",
+    excerpt: "Complete guide to containerizing Python applications, from basic Dockerfile creation to multi-stage builds and production deployment strategies.",
+    date: "2023-12-25",
+    tags: ["Python", "Docker", "DevOps"],
+    slug: "python-docker-guide",
+    readTime: "11 min read"
+  }
+];
+---
+
+<Layout title="TechBlog - Modern Development Insights">
+  <Header />
+  <Hero />
+  
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+    <section class="mb-16">
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-3xl font-bold text-space-100">Featured Posts</h2>
+        <a href="/blog" class="text-blue-400 hover:text-blue-300 transition-colors duration-200 flex items-center gap-2">
+          View all posts
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {featuredPosts.map(post => (
+          <BlogCard {...post} />
+        ))}
+      </div>
+    </section>
+    
+    <section class="bg-space-900/30 border border-space-800/50 rounded-2xl p-8 text-center">
+      <h3 class="text-2xl font-bold text-space-100 mb-4">Stay Updated</h3>
+      <p class="text-space-300 mb-6 max-w-2xl mx-auto">
+        Get the latest insights on web development, Python, Django, and modern JavaScript frameworks delivered to your inbox.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+        <input 
+          type="email" 
+          placeholder="Enter your email" 
+          class="flex-1 px-4 py-2 bg-space-800/50 border border-space-700 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-space-100 placeholder-space-400"
+        />
+        <button class="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg font-medium transition-all duration-200 hover:scale-105">
+          Subscribe
+        </button>
+      </div>
+    </section>
+  </main>
+  
+  <footer class="border-t border-space-800/50 bg-space-950/80 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="text-center text-space-400">
+        <p>&copy; 2024 TechBlog. Built with Astro and TailwindCSS.</p>
+      </div>
+    </div>
+  </footer>
+</Layout>
+
+<style>
+  .stretched-link::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: "";
+    z-index: 1;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

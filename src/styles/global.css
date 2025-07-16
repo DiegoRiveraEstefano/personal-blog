@@ -1,0 +1,25 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+
+    --font-display: 'Inter', 'system-ui', 'sans-serif';
+
+    --color-space-50: #f8fafc;
+    --color-space-100: #f1f5f9;
+    --color-space-200: #e2e8f0;
+    --color-space-300: #cbd5e1;
+    --color-space-400: #94a3b8;
+    --color-space-500: #64748b;
+    --color-space-600: #475569;
+    --color-space-700: #334155;
+    --color-space-800: #1e293b;
+    --color-space-900: #0f172a;
+    --color-space-950: #020617;
+
+    --gradient-space-50: linear-gradient(to right, var(--color-space-50), var(--color-space-100));
+    --gradient-space-100: linear-gradient(to right, var(--color-space-100), var(--color-space-200));
+    --gradient-space-200: linear-gradient(to right, var(--color-space-200), var(--color-space-300));
+    --gradient-space-300: linear-gradient(to right, var(--color-space-300), var(--color-space-400));
+    --gradient-space-400: linear-gradient(to right, var(--color-space-400), var(--color-space-500));
+}
