@@ -1,0 +1,18 @@
+---
+
+import { getCollection } from 'astro:content';
+
+const tags = await getCollection('tags');
+
+interface Props {
+    category: string;
+    text?: string;
+}
+
+const { category, text } = Astro.props;
+
+
+const color = tags.find(tag => tag.data.slug === category)?.data.color;
+---
+
+<span class={`px-3 py-1 ${color || "bg-primary-100 text-primary-700"} text-sm font-medium rounded-lg hover:bg-primary-200 transition-colors duration-200 cursor-pointer`}>{text || category}</span>

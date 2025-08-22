@@ -1,0 +1,263 @@
+[
+    {
+        "slug": "django",
+        "name": "Django",
+        "color": "#005FF9",
+        "description": "Django es una plataforma web de alto rendimiento y flexibilidad que permite desarrollar aplicaciones web rápidas y escalables.",
+        "seoTitle": "Guía completa de Django: Desarrollo web rápido y escalable",
+        "metaDescription": "Aprende a usar Django, el framework de Python, para construir aplicaciones web robustas y seguras. Guías, tutoriales y mejores prácticas para desarrolladores.",
+        "keywords": "Django, framework web, Python, desarrollo web, aplicaciones web, ORM, Django REST, tutoriales Django, backend"
+    },
+    {
+        "slug": "python",
+        "name": "Python",
+        "color": "#3572A5",
+        "description": "Python es un lenguaje de programación interpretado y de alto nivel, diseñado para ser fácil de aprender y usar.",
+        "seoTitle": "Aprende Python desde cero: El lenguaje de programación más versátil",
+        "metaDescription": "Domina Python, un lenguaje de programación ideal para desarrollo web, ciencia de datos, machine learning y automatización. Encuentra tutoriales, ejercicios y recursos.",
+        "keywords": "Python, lenguaje de programación, aprender Python, programación, scripts, data science, machine learning, tutoriales Python"
+    },
+    {
+        "slug": "desarrollo-web",
+        "name": "Web Dev",
+        "color": "#FF0000",
+        "description": "Aprende a desarrollar aplicaciones web de alto rendimiento y escalabilidad utilizando Django y otros frameworks.",
+        "seoTitle": "Desarrollo Web Moderno: Guías y Herramientas Esenciales",
+        "metaDescription": "Explora las tecnologías, frameworks y mejores prácticas del desarrollo web. Desde frontend con HTML/CSS/JS hasta backend con Python y Django.",
+        "keywords": "desarrollo web, full stack, frontend, backend, frameworks, HTML, CSS, JavaScript, guías desarrollo web, web developer"
+    },
+    {
+        "slug": "buenas-practicas",
+        "name": "Best Practices",
+        "color": "#FFA500",
+        "description": "Aprende técnicas y buenas prácticas para mejorar la calidad y rendimiento de tus aplicaciones web.",
+        "seoTitle": "Código limpio y buenas prácticas de programación",
+        "metaDescription": "Mejora la calidad de tu código con buenas prácticas de programación. Consejos, patrones de diseño y técnicas para escribir software mantenible y eficiente.",
+        "keywords": "buenas prácticas, código limpio, clean code, refactorización, patrones de diseño, calidad de software, buenas prácticas de desarrollo"
+    },
+    {
+        "slug": "seguridad",
+        "name": "Seguridad",
+        "color": "#FF7F50",
+        "description": "Aprende a proteger tu aplicación web de ataques y vulnerabilidades.",
+        "seoTitle": "Seguridad en Desarrollo Web: Protege tus aplicaciones de ciberataques",
+        "metaDescription": "Descubre cómo implementar medidas de seguridad robustas para proteger tus aplicaciones web de vulnerabilidades como XSS, CSRF, inyección SQL y más.",
+        "keywords": "seguridad web, ciberseguridad, XSS, CSRF, inyección SQL, OWASP, seguridad en aplicaciones, protección de datos"
+    },
+    {
+        "slug": "performance",
+        "name": "Performance",
+        "color": "#FF4500",
+        "description": "Aprende a optimizar el rendimiento de tu aplicación web utilizando técnicas de caching y otros métodos.",
+        "seoTitle": "Optimización de Rendimiento Web: Guía para Aplicaciones Rápidas",
+        "metaDescription": "Mejora la velocidad y el rendimiento de tus sitios y aplicaciones web. Técnicas de caching, optimización de imágenes y carga asíncrona para una mejor UX.",
+        "keywords": "performance, optimización web, velocidad del sitio, caching, PageSpeed, rendimiento, optimización de imágenes"
+    },
+    {
+        "slug": "optimizacion",
+        "name": "Optimización",
+        "color": "#FF0000",
+        "description": "Aprende a optimizar tu aplicación web utilizando técnicas de caching y otros métodos.",
+        "seoTitle": "Optimización de Aplicaciones: Estrategias y Técnicas",
+        "metaDescription": "Descubre cómo optimizar el rendimiento y la eficiencia de tus aplicaciones. Métodos para mejorar la velocidad, reducir el consumo de recursos y la experiencia de usuario.",
+        "keywords": "optimización, performance, eficiencia de código, profiling, bases de datos, web performance, escalabilidad"
+    },
+    {
+        "slug": "testing",
+        "name": "Testing",
+        "color": "#008000",
+        "description": "Aprende a implementar pruebas automatizadas para asegurar la calidad de tu aplicación web.",
+        "seoTitle": "Testing de Software: Automatización y Calidad de Código",
+        "metaDescription": "Guía sobre testing de software: pruebas unitarias, de integración, funcionales y de end-to-end. Asegura la calidad y estabilidad de tus proyectos de desarrollo.",
+        "keywords": "testing, pruebas unitarias, pruebas de integración, TDD, testing de software, calidad de software, QA"
+    },
+    {
+        "slug": "bases-de-datos",
+        "name": "DBA",
+        "color": "#800080",
+        "description": "Aprende a trabajar con bases de datos relacionales y no relacionales en tus aplicaciones web.",
+        "seoTitle": "Gestión de Bases de Datos: SQL y NoSQL",
+        "metaDescription": "Entiende las bases de datos relacionales (SQL) y no relacionales (NoSQL). Guías para modelado, consultas y optimización en tus aplicaciones.",
+        "keywords": "bases de datos, SQL, NoSQL, PostgreSQL, MySQL, MongoDB, Redis, ORM, diseño de bases de datos"
+    },
+    {
+        "slug": "frontend",
+        "name": "Frontend",
+        "color": "#0000FF",
+        "description": "Aprende a desarrollar la parte visual de tus aplicaciones web utilizando HTML, CSS y JavaScript.",
+        "seoTitle": "Desarrollo Frontend: HTML, CSS y JavaScript para la Web",
+        "metaDescription": "Domina el frontend: crea interfaces de usuario atractivas y funcionales con HTML, CSS y JavaScript. Explora frameworks como React y Vue.",
+        "keywords": "frontend, HTML, CSS, JavaScript, React, Vue.js, diseño web, desarrollo de interfaz de usuario"
+    },
+    {
+        "slug": "backend",
+        "name": "Backend",
+        "color": "#008080",
+        "description": "Aprende a desarrollar la lógica del servidor y la gestión de datos en tus aplicaciones web.",
+        "seoTitle": "Desarrollo Backend: Lógica del servidor y gestión de datos",
+        "metaDescription": "Profundiza en el desarrollo backend con Python, Django, Node.js y más. Aprende a gestionar bases de datos, APIs y la lógica del servidor.",
+        "keywords": "backend, desarrollo backend, lógica de servidor, APIs, Node.js, Python, Django, RESTful API"
+    },
+    {
+        "slug": "algoritmos",
+        "name": "Algoritmos",
+        "color": "#808000",
+        "description": "Aprende a optimizar tu código utilizando algoritmos de alto rendimiento.",
+        "seoTitle": "Algoritmos y Estructuras de Datos: Guía para Desarrolladores",
+        "metaDescription": "Mejora tu código con algoritmos eficientes y estructuras de datos. Aprende sobre complejidad, ordenamiento, búsqueda y más.",
+        "keywords": "algoritmos, estructuras de datos, complejidad algorítmica, programación, optimización de código, Big O"
+    },
+    {
+        "slug": "api",
+        "name": "API",
+        "color": "#A52A2A",
+        "description": "Aprende a diseñar y desarrollar APIs RESTful para tus aplicaciones web.",
+        "seoTitle": "APIs RESTful: Guía para el Diseño y Desarrollo",
+        "metaDescription": "Aprende a diseñar, crear y documentar APIs RESTful robustas y escalables. Explora frameworks, autenticación y versiones de API.",
+        "keywords": "API, REST, RESTful API, diseño de API, desarrollo API, endpoints, JSON, autenticación API"
+    },
+    {
+        "slug": "devops",
+        "name": "DevOps",
+        "color": "#D2691E",
+        "description": "Aprende a implementar prácticas de DevOps para mejorar la colaboración entre desarrollo y operaciones.",
+        "seoTitle": "DevOps: Automatización y Mejora Continua en el Desarrollo de Software",
+        "metaDescription": "Descubre las prácticas de DevOps para mejorar la colaboración y la entrega de software. Automatiza despliegues, monitorea y optimiza tu ciclo de vida de desarrollo.",
+        "keywords": "DevOps, CI/CD, automatización, infraestructura como código, despliegue continuo, monitorización, SRE"
+    },
+    {
+        "slug": "docker",
+        "name": "Docker",
+        "color": "#FFA500",
+        "description": "Aprende a implementar prácticas de Docker para mejorar la portabilidad y la escalabilidad de tus aplicaciones.",
+        "seoTitle": "Docker para Desarrolladores: Contenedores y Microservicios",
+        "metaDescription": "Domina Docker para empaquetar, distribuir y ejecutar aplicaciones en contenedores. Mejora la portabilidad, escalabilidad y eficiencia de tus proyectos.",
+        "keywords": "Docker, contenedores, Docker Compose, microservicios, virtualización, despliegue, Dockerfile"
+    },
+    {
+        "slug": "git",
+        "name": "Git",
+        "color": "#FF4500",
+        "description": "Aprende a utilizar Git para mejorar la gestión de tus proyectos y contribuciones.",
+        "seoTitle": "Control de Versiones con Git: Guía Esencial para Colaboración",
+        "metaDescription": "Aprende a usar Git para gestionar tus proyectos de software. Guía sobre comandos básicos, ramas, merges, y flujos de trabajo de colaboración.",
+        "keywords": "Git, control de versiones, GitHub, GitLab, Bitbucket, ramas, commits, pull requests, colaboración"
+    },
+    {
+        "slug": "ci-cd",
+        "name": "CI/CD",
+        "color": "#FF7F50",
+        "description": "Aprende a automatizar la compilación, despliegue y monitorización de tus aplicaciones web.",
+        "seoTitle": "Integración y Despliegue Continuo (CI/CD): Flujos de Trabajo",
+        "metaDescription": "Implementa CI/CD para automatizar el ciclo de vida de tu software. Reduce errores y acelera la entrega de nuevas funcionalidades con herramientas como GitHub Actions y GitLab CI.",
+        "keywords": "CI/CD, integración continua, despliegue continuo, automatización, DevOps, pipelines, GitHub Actions, GitLab CI"
+    },
+    {
+        "slug": "cloud",
+        "name": "Cloud",
+        "color": "#00CED1",
+        "description": "Aprende a desplegar y gestionar tus aplicaciones web en la nube utilizando servicios como AWS, Azure o Google Cloud.",
+        "seoTitle": "Servicios Cloud: AWS, Azure y Google Cloud para Desarrolladores",
+        "metaDescription": "Explora la computación en la nube y cómo desplegar tus aplicaciones en plataformas líderes como AWS, Azure y Google Cloud. Guías sobre IaaS, PaaS y SaaS.",
+        "keywords": "Cloud Computing, AWS, Azure, Google Cloud, despliegue en la nube, PaaS, IaaS, servidor sin servidor"
+    },
+    {
+        "slug": "microservicios",
+        "name": "Microservicios",
+        "color": "#8A2BE2",
+        "description": "Aprende a diseñar y desarrollar aplicaciones basadas en microservicios para mejorar la escalabilidad y mantenibilidad.",
+        "seoTitle": "Arquitectura de Microservicios: Diseño y Patrones",
+        "metaDescription": "Entiende la arquitectura de microservicios: sus ventajas, desafíos y patrones de diseño. Construye sistemas escalables y resilientes con APIs bien definidas.",
+        "keywords": "microservicios, arquitectura, servicios, diseño de software, API, escalabilidad, monolitos, comunicación entre servicios"
+    },
+    {
+        "slug": "arquitectura-web",
+        "name": "Arquitectura Web",
+        "color": "#FF7F50",
+        "description": "Aprende a diseñar y implementar una arquitectura web robusta y escalable para tus aplicaciones.",
+        "seoTitle": "Diseño de Arquitectura Web: Guías para Aplicaciones Escalables",
+        "metaDescription": "Aprende los principios y patrones para diseñar arquitecturas web robustas y escalables. Monolitos, microservicios, patrones de diseño y toma de decisiones tecnológicas.",
+        "keywords": "arquitectura web, diseño de software, escalabilidad, alta disponibilidad, patrones de diseño, microservicios, monolitos"
+    },
+    {
+        "slug": "javascript",
+        "name": "JavaScript",
+        "color": "#F7DF1E",
+        "description": "Explora el lenguaje de programación esencial para el desarrollo web frontend y backend.",
+        "seoTitle": "JavaScript: El Lenguaje Clave para el Desarrollo Web",
+        "metaDescription": "Aprende JavaScript desde lo básico hasta frameworks modernos como React y Vue. Tutoriales, guías y buenas prácticas para desarrolladores.",
+        "keywords": "JavaScript, JS, frontend, backend, Node.js, programación web, desarrollo frontend, tutoriales JavaScript"
+    },
+    {
+        "slug": "rest-api",
+        "name": "REST API",
+        "color": "#00CED1",
+        "description": "Domina el diseño y la implementación de APIs RESTful para tus aplicaciones web.",
+        "seoTitle": "REST API: Diseño y Desarrollo de Interfaces para Aplicaciones",
+        "metaDescription": "Guía completa para crear APIs RESTful robustas y escalables. Aprende sobre métodos HTTP, endpoints, autenticación y versiones de API.",
+        "keywords": "REST, API, RESTful, API REST, JSON, HTTP, desarrollo de API, endpoints"
+    },
+    {
+        "slug": "web-scraping",
+        "name": "Web Scraping",
+        "color": "#8B008B",
+        "description": "Aprende a extraer datos de sitios web de manera eficiente y legal utilizando Python.",
+        "seoTitle": "Web Scraping con Python: Extracción de Datos de la Web",
+        "metaDescription": "Descubre cómo realizar web scraping para recopilar información de páginas web. Guías con bibliotecas como BeautifulSoup y Scrapy para automatizar tareas.",
+        "keywords": "web scraping, Python, BeautifulSoup, Scrapy, extracción de datos, data mining, automatización web"
+    },
+    {
+        "slug": "django-rest-framework",
+        "name": "Django REST Framework",
+        "color": "#5D4939",
+        "description": "Crea APIs potentes y flexibles con el framework líder para Django.",
+        "seoTitle": "Django REST Framework: Construye APIs con Django",
+        "metaDescription": "Tutoriales y guías para dominar Django REST Framework. Aprende a crear APIs robustas y seguras, serializadores, vistas y autenticación.",
+        "keywords": "Django REST Framework, DRF, Django, API, REST, serializadores, vistas de API, autenticación API"
+    },
+    {
+        "slug": "flask",
+        "name": "Flask",
+        "color": "#000000",
+        "description": "Un microframework de Python ligero y flexible para desarrollar aplicaciones web.",
+        "seoTitle": "Flask: Microframework de Python para Aplicaciones Web Ligeras",
+        "metaDescription": "Empieza a desarrollar con Flask. Aprende a crear aplicaciones web y APIs de forma rápida y sencilla. Tutoriales y ejemplos prácticos.",
+        "keywords": "Flask, Python, microframework, desarrollo web, aplicaciones ligeras, tutoriales Flask, backend"
+    },
+    {
+        "slug": "data-science",
+        "name": "Data Science",
+        "color": "#008080",
+        "description": "Explora el análisis y manipulación de datos con Python y sus librerías.",
+        "seoTitle": "Data Science: Análisis y Visualización de Datos con Python",
+        "metaDescription": "Introducción a la ciencia de datos. Aprende a utilizar librerías como Pandas, NumPy y Matplotlib para el análisis, manipulación y visualización de datos.",
+        "keywords": "ciencia de datos, data science, Python, Pandas, NumPy, Matplotlib, análisis de datos, visualización de datos"
+    },
+    {
+        "slug": "machine-learning",
+        "name": "Machine Learning",
+        "color": "#B8860B",
+        "description": "Iníciate en el aprendizaje automático y cómo aplicarlo en tus proyectos.",
+        "seoTitle": "Machine Learning: Introducción y Aplicaciones Prácticas",
+        "metaDescription": "Guía para principiantes en machine learning. Descubre los conceptos básicos, algoritmos y cómo construir tus propios modelos con Python y Scikit-learn.",
+        "keywords": "machine learning, aprendizaje automático, IA, inteligencia artificial, modelos de machine learning, Scikit-learn, Python, algoritmos"
+    },
+    {
+        "slug": "automatizacion",
+        "name": "Automatización",
+        "color": "#CD853F",
+        "description": "Descubre cómo automatizar tareas repetitivas en tus flujos de trabajo de desarrollo.",
+        "seoTitle": "Automatización en Desarrollo de Software: Aumenta tu Productividad",
+        "metaDescription": "Aprende a automatizar procesos con Python y otras herramientas. Mejora tu eficiencia, reduce errores y optimiza tus flujos de trabajo de desarrollo.",
+        "keywords": "automatización, scripts, Python, tareas automáticas, productividad, desarrollo de software, optimización de flujos"
+    },
+    {
+        "slug": "ciberseguridad",
+        "name": "Ciberseguridad",
+        "color": "#800000",
+        "description": "Principios y técnicas para proteger sistemas, redes y datos de ataques cibernéticos.",
+        "seoTitle": "Ciberseguridad: Fundamentos para Proteger Sistemas y Datos",
+        "metaDescription": "Adéntrate en el mundo de la ciberseguridad. Aprende sobre vulnerabilidades, ataques, protección de datos y mejores prácticas para defender tus aplicaciones.",
+        "keywords": "ciberseguridad, seguridad informática, hacking ético, vulnerabilidades, protección de datos, seguridad de red"
+    }
+]

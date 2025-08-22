@@ -1,0 +1,117 @@
+---
+slug: "el-costo-oculto-de-las-imagenes-optimizacion-para-una-web-rapida"
+title: "El Costo Oculto de las Imágenes: Optimización para una Web Rápida"
+description: "Descubre cómo optimizar imágenes para mejorar la velocidad de carga de tu web. Aprende sobre formatos modernos como WebP, AVIF y JPEG XL, y cómo integrarlos en tu pipeline de desarrollo."
+publishDate: 2023-10-01
+tags: ["performance", "optimización", "imágenes", "buenas-practicas"]
+author: "Diego Rivera"
+---
+
+# El Costo Oculto de las Imágenes: Optimización para una Web Rápida
+
+Las imágenes son responsables de gran parte del peso de una página web moderna. Según estudios de [HTTP Archive](https://httparchive.org/), más del 50% del peso total de una web proviene de imágenes. Un sitio con imágenes no optimizadas no solo se carga más lento, sino que también consume más ancho de banda y penaliza la experiencia del usuario.
+
+En este artículo exploraremos cómo los formatos modernos (WebP, AVIF, JPEG XL) superan a los tradicionales (JPEG, PNG), y veremos cómo integrarlos en un **pipeline de desarrollo automatizado**.
+
+---
+
+## El problema: imágenes pesadas = web lenta
+
+* **Tiempo de carga**: cada KB adicional impacta en la velocidad percibida.
+* **Core Web Vitals**: métricas como *Largest Contentful Paint (LCP)* se ven afectadas si las imágenes no se entregan de forma eficiente.
+* **Costos**: mayor consumo de ancho de banda en servidores y planes móviles de usuarios.
+
+---
+
+## Comparativa de formatos
+
+| Formato     | Ventajas                                                                  | Desventajas                                                     | Casos de uso                   |
+| ----------- | ------------------------------------------------------------------------- | --------------------------------------------------------------- | ------------------------------ |
+| **JPEG**    | Amplio soporte, bueno para fotos                                          | Archivos grandes, pérdida de calidad visible en compresión alta | Fotografía, imágenes complejas |
+| **PNG**     | Soporta transparencia, sin pérdida                                        | Muy pesado en fotos                                             | Iconos, logos, capturas        |
+| **WebP**    | Compresión superior a JPEG/PNG, soporte extendido en navegadores modernos | No todos los sistemas legacy lo soportan                        | Sustituto de JPEG/PNG          |
+| **AVIF**    | Excelente compresión, mejor calidad en menos KB                           | Codificación más lenta, soporte aún en crecimiento              | Fotos en alta calidad          |
+| **JPEG XL** | Balance entre calidad, compresión y soporte HDR                           | Soporte limitado en navegadores (parcial)                       | Futuro reemplazo universal     |
+
+👉 En la práctica, **WebP es hoy el estándar de facto**, mientras que **AVIF y JPEG XL** se posicionan como los próximos líderes en compresión.
+
+---
+
+## Ejemplo práctico: optimización
+
+Tomemos una imagen JPG de **1.2 MB**:
+
+* JPEG original → 1.2 MB
+* WebP (80% calidad) → \~300 KB
+* AVIF (80% calidad) → \~200 KB
+
+La diferencia es abismal: **hasta 6x menos peso** con una calidad percibida muy similar.
+
+---
+
+## Cómo automatizar la optimización en el pipeline
+
+La optimización manual es inviable en proyectos grandes. Por ello, conviene integrarla al pipeline de build o CI/CD.
+
+### 1. Herramientas recomendadas
+
+* **[imagemin](https://github.com/imagemin/imagemin)** (Node.js) → plugins para WebP/AVIF.
+* **[sharp](https://sharp.pixelplumbing.com/)** → procesamiento rápido de imágenes en Node.js.
+* **[cwebp](https://developers.google.com/speed/webp/docs/cwebp)** → conversor oficial de Google.
+* **[squoosh-cli](https://github.com/GoogleChromeLabs/squoosh/tree/dev/cli)** → CLI oficial para WebP, AVIF, JPEG XL.
+
+### 2. Ejemplo con `sharp` en un script Node.js
+
+```js
+import sharp from "sharp";
+import fs from "fs";
+
+const input = "images/foto.jpg";
+const outputDir = "dist/images/";
+
+(async () => {
+  // WebP
+  await sharp(input)
+    .webp({ quality: 80 })
+    .toFile(outputDir + "foto.webp");
+
+  // AVIF
+  await sharp(input)
+    .avif({ quality: 50 })
+    .toFile(outputDir + "foto.avif");
+
+  console.log("Imágenes optimizadas generadas 🚀");
+})();
+```
+
+### 3. Integración con CI/CD
+
+* Añadir el script a `package.json`:
+
+  ```json
+  "scripts": {
+    "optimize:images": "node scripts/optimize-images.js"
+  }
+  ```
+* Ejecutar el paso en el pipeline antes del deploy.
+
+---
+
+## Buenas prácticas adicionales
+
+1. **Lazy loading (`loading="lazy"`)**: evita cargar imágenes fuera de pantalla.
+2. **Responsive images (`srcset`, `sizes`)**: servir imágenes adaptadas a cada dispositivo.
+3. **CDN de imágenes** (ej: Cloudflare Images, Imgix, Akamai): sirven versiones optimizadas en tiempo real.
+4. **Precompresión en el servidor**: servir imágenes con gzip/brotli si aplica.
+
+---
+
+## Conclusión
+
+Las imágenes son un **costo oculto** en el rendimiento web.
+
+* JPEG y PNG siguen teniendo su lugar, pero en la mayoría de proyectos modernos, **WebP** debe ser la opción por defecto.
+* **AVIF y JPEG XL** representan el futuro, ofreciendo un mejor balance entre compresión y calidad.
+* Automatizar la optimización dentro del pipeline asegura consistencia y evita descuidos.
+
+En un entorno donde los milisegundos cuentan, **optimizar imágenes puede marcar la diferencia entre un usuario que se queda y uno que abandona tu web**.

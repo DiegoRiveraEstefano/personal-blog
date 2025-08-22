@@ -1,0 +1,404 @@
+---
+slug: "configuracion-de-entornos-de-produccion-y-desarrollo-con-django-environ"
+title: "Configuración de Entornos de Producción y Desarrollo con django-environ"
+description: "Aprende a gestionar configuraciones sensibles y variables específicas por entorno en Django usando django-environ."
+publishDate: 2023-10-01
+tags: ["django", "seguridad", "devops"]
+author: "Diego Rivera"
+---
+
+
+# Configuración de Entornos de Producción y Desarrollo con django-environ
+
+![django-environ](https://i.imgur.com/9K7Z9Qp.png)
+
+Gestionar configuraciones sensibles y variables específicas por entorno es crucial para el desarrollo seguro de aplicaciones Django. La librería `django-environ` proporciona una solución elegante para manejar variables de entorno y mantener las claves secretas fuera del control de versiones.
+
+## ¿Por qué usar django-environ?
+
+- **Seguridad**: Mantiene información sensible fuera del código fuente
+- **Flexibilidad**: Configuraciones diferentes por entorno (desarrollo, producción, testing)
+- **Portabilidad**: Fácil migración entre entornos sin modificar código
+- **12-Factor App**: Cumple con el principio III de las aplicaciones 12-factor
+
+## Instalación y Configuración Inicial
+
+### Paso 1: Instalar django-environ
+
+```bash
+pip install django-environ
+```
+
+### Paso 2: Estructura de archivos recomendada
+
+```
+mi_proyecto/
+├── .envs/
+│   ├── .local/       # Entorno local/desarrollo
+│   │   ├── .django
+│   │   └── .postgres
+│   └── .production/  # Entorno producción
+│       ├── .django
+│       └── .postgres
+├── config/
+│   ├── settings/
+│   │   ├── __init__.py
+│   │   ├── base.py     # Configuración base
+│   │   ├── local.py    # Configuración desarrollo
+│   │   └── production.py # Configuración producción
+│   └── __init__.py
+└── manage.py
+```
+
+### Paso 3: Configuración Base (base.py)
+
+```python
+# config/settings/base.py
+import environ
+from pathlib import Path
+
+# Inicializar environ
+env = environ.Env()
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# Cargar archivo .env
+environ.Env.read_env(BASE_DIR / '.envs' / '.local' / '.django')
+
+# Configuración básica
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env.bool('DEBUG', default=False)
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
+
+# Application definition
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # Tus apps aquí
+]
+
+# Database
+DATABASES = {
+    'default': env.db('DATABASE_URL', default='sqlite:///db.sqlite3')
+}
+
+# Cache
+CACHES = {
+    'default': env.cache('CACHE_URL', default='locmemcache://')
+}
+
+# Internationalization
+LANGUAGE_CODE = env('LANGUAGE_CODE', default='es-es')
+TIME_ZONE = env('TIME_ZONE', default='UTC')
+USE_I18N = True
+USE_TZ = True
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'mediafiles'
+
+# Email configuration
+EMAIL_BACKEND = env('EMAIL_BACKEND', 
+                   default='django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = env('EMAIL_HOST', default='')
+EMAIL_PORT = env('EMAIL_PORT', default=587)
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
+EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', 
+                        default='webmaster@localhost')
+```
+
+### Paso 4: Configuración para Desarrollo (local.py)
+
+```python
+# config/settings/local.py
+from .base import *
+
+DEBUG = True
+
+# Additional apps for development only
+INSTALLED_APPS += [
+    'debug_toolbar',
+    'django_extensions',
+]
+
+# Additional middleware for development
+MIDDLEWARE += [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+
+# Debug toolbar settings
+INTERNAL_IPS = ['127.0.0.1']
+
+# Email settings for development
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Django extensions settings
+SHELL_PLUS = 'ipython'
+```
+
+### Paso 5: Configuración para Producción (production.py)
+
+```python
+# config/settings/production.py
+from .base import *
+
+DEBUG = False
+
+# Security settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+X_FRAME_OPTIONS = 'DENY'
+
+# HSTS settings
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': '/var/log/django/app.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+```
+
+### Paso 6: Archivos de Variables de Entorno
+
+**Archivo de desarrollo (.envs/.local/.django):**
+```ini
+# Django
+DEBUG=True
+SECRET_KEY=tu-clave-secreta-local-aqui
+ALLOWED_HOSTS=localhost,127.0.0.1,[::1]
+
+# Database
+DATABASE_URL=psql://usuario:password@localhost:5432/mi_bd_desarrollo
+
+# Email
+EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+
+# Cache
+CACHE_URL=locmemcache://
+
+# Internationalization
+LANGUAGE_CODE=es-es
+TIME_ZONE=Europe/Madrid
+```
+
+**Archivo de producción (.envs/.production/.django):**
+```ini
+# Django
+DEBUG=False
+SECRET_KEY=tu-clave-secreta-produccion-aqui-muy-segura-y-larga
+ALLOWED_HOSTS=midominio.com,www.midominio.com,ip-del-servidor
+
+# Database
+DATABASE_URL=psql://usuario_prod:password_complejo@prod-db:5432/mi_bd_produccion
+
+# Email
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=tu-email@gmail.com
+EMAIL_HOST_PASSWORD=tu-password-de-app
+DEFAULT_FROM_EMAIL=webmaster@midominio.com
+
+# Cache
+CACHE_URL=rediscache://127.0.0.1:6379/1
+
+# Internationalization
+LANGUAGE_CODE=es-es
+TIME_ZONE=Europe/Madrid
+
+# External APIs
+GOOGLE_MAPS_API_KEY=tu-api-key-google-maps
+STRIPE_SECRET_KEY=sk_test_tu-clave-secreta-stripe
+```
+
+### Paso 7: Configurar __init__.py de Settings
+
+```python
+# config/settings/__init__.py
+from .base import *
+
+# Determinar qué configuración cargar basado en la variable de entorno DJANGO_SETTINGS_MODULE
+# Esto se establece normalmente en el manage.py y en el servidor
+```
+
+### Paso 8: Modificar manage.py
+
+```python
+#!/usr/bin/env python
+"""Django's command-line utility for administrative tasks."""
+import os
+import sys
+from pathlib import Path
+
+def main():
+    """Run administrative tasks."""
+    # Establecer la configuración por defecto para desarrollo
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')
+    
+    # Cargar variables de entorno para desarrollo
+    try:
+        from django.core.management import execute_from_command_line
+    except ImportError as exc:
+        raise ImportError(
+            "Couldn't import Django. Are you sure it's installed and "
+            "available on your PYTHONPATH environment variable? Did you "
+            "forget to activate a virtual environment?"
+        ) from exc
+    execute_from_command_line(sys.argv)
+
+if __name__ == '__main__':
+    main()
+```
+
+### Paso 9: Configuración para WSGI (producción)
+
+```python
+# config/wsgi.py
+import os
+from django.core.wsgi import get_wsgi_application
+
+# Cargar variables de entorno de producción
+from pathlib import Path
+from dotenv import load_dotenv
+
+env_path = Path(__file__).resolve().parent.parent / '.envs' / '.production' / '.django'
+load_dotenv(dotenv_path=env_path)
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.production')
+
+application = get_wsgi_application()
+```
+
+## Variables de Entorno en Diferentes Entornos
+
+### Desarrollo Local
+```bash
+# Ejemplo de script para desarrollo
+export DJANGO_SETTINGS_MODULE=config.settings.local
+export DJANGO_DEBUG=True
+python manage.py runserver
+```
+
+### Producción (Ejemplo para Gunicorn)
+```bash
+# En tu systemd service o script de despliegue
+export DJANGO_SETTINGS_MODULE=config.settings.production
+export DJANGO_DEBUG=False
+gunicorn config.wsgi:application --bind 0.0.0.0:8000
+```
+
+### Docker (Ejemplo de Dockerfile)
+```dockerfile
+FROM python:3.9
+
+# Establecer variables de entorno
+ENV DJANGO_SETTINGS_MODULE=config.settings.production
+ENV PYTHONUNBUFFERED=1
+
+# Copiar código y instalar dependencias
+WORKDIR /app
+COPY . .
+RUN pip install -r requirements.txt
+
+# Exponer puerto y ejecutar
+EXPOSE 8000
+CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000"]
+```
+
+## Buenas Prácticas
+
+### 1. Seguridad de Archivos .env
+```bash
+# Asegurar que los archivos .env no se suben al repositorio
+# .gitignore
+.env/
+.envs/
+*.env
+```
+
+### 2. Variables Requeridas con Validación
+```python
+# En settings/base.py
+# Validar variables críticas
+required_env_vars = ['SECRET_KEY', 'DATABASE_URL']
+for var in required_env_vars:
+    if not env.str(var, None):
+        raise ImproperlyConfigured(f'La variable de entorno {var} es requerida')
+```
+
+### 3. Valores por Defecto Seguros
+```python
+# Usar valores por defecto seguros para producción
+DEBUG = env.bool('DEBUG', default=False)
+SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', default=not DEBUG)
+```
+
+### 4. Tipado de Variables
+```python
+# Usar los métodos correctos para cada tipo de variable
+DEBUG = env.bool('DEBUG', default=False)          # Booleano
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')         # Lista
+DATABASE_URL = env.db('DATABASE_URL')             # URL de base de datos
+CACHE_URL = env.cache('CACHE_URL')                # URL de cache
+EMAIL_PORT = env.int('EMAIL_PORT', default=587)   # Entero
+```
+
+## Script de Utilidad para Generar Claves Secretas
+
+```python
+# generate_secret_key.py
+from django.core.management.utils import get_random_secret_key
+
+secret_key = get_random_secret_key()
+print(f'SECRET_KEY={secret_key}')
+```
+
+```bash
+# Ejecutar para generar una nueva clave secreta
+python generate_secret_key.py >> .envs/.production/.django
+```
+
+## Conclusión
+
+Configurar tu aplicación Django con `django-environ` proporciona:
+
+1. **Seguridad mejorada**: Las claves secretas nunca están en el código fuente
+2. **Configuraciones específicas por entorno**: Diferentes settings para desarrollo, testing y producción
+3. **Portabilidad**: Fácil migración entre entornos
+4. **Escalabilidad**: Añadir nuevas variables es sencillo y organizado
+
+Esta configuración sigue las mejores prácticas de seguridad y te permite gestionar de forma eficiente múltiples entornos de tu aplicación Django, desde desarrollo local hasta despliegues en producción complejos.
+
+![Flujo de Configuración](https://i.imgur.com/2K7Z9Qp.png)
+
+*Figura: Flujo de carga de configuración con django-environ, mostrando cómo se cargan las variables de entorno según el entorno de ejecución.*

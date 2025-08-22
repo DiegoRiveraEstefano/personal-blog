@@ -1,0 +1,143 @@
+---
+slug: "caching-en-navegador-y-servidor-etag-y-cache-control"
+title: "Caching en Navegador y Servidor: ETag y Cache-Control"
+description: Explicación técnica sobre caching en navegador y servidor, enfocándose en ETag y Cache-Control.
+publishDate: 2023-10-01
+tags: ["desarrollo-web", "performance"]
+author: Diego Rivera
+---
+
+
+# Caching en Navegador y Servidor: ETag y Cache-Control
+
+El **caching HTTP** es una de las técnicas más efectivas para mejorar el rendimiento web. Permite que los navegadores reutilicen recursos previamente descargados (imágenes, hojas de estilo, scripts, documentos JSON, etc.) sin tener que pedirlos nuevamente al servidor en cada visita.
+
+Los beneficios principales son:
+
+* **Reducción de carga en el servidor** → menos solicitudes completas.
+* **Aceleración en visitas recurrentes** → los usuarios descargan solo lo estrictamente necesario.
+* **Menor uso de ancho de banda** → ahorro en infraestructura y mejor experiencia móvil.
+
+---
+
+## Caching a nivel de navegador
+
+El navegador mantiene una copia local de los recursos descargados. Cuando el usuario vuelve a visitar la página:
+
+* Si el recurso sigue siendo válido (según políticas de caché), se reutiliza directamente desde el almacenamiento local.
+* Si no está seguro de su validez, consulta al servidor con cabeceras condicionales (ej. `If-None-Match`, `If-Modified-Since`).
+
+Esto evita descargar archivos idénticos en cada request.
+
+---
+
+## Caching a nivel de servidor
+
+El servidor es el que decide cuánto tiempo un recurso puede considerarse válido y cómo el navegador debe verificarlo. Esto se hace enviando **cabeceras HTTP de control de caché**.
+
+Las más comunes son:
+
+1. **Cache-Control** → instrucción explícita sobre cómo almacenar y reutilizar el recurso.
+2. **ETag** → identificador único del recurso (hash, checksum, versión).
+3. **Last-Modified** → fecha de última modificación del recurso.
+
+---
+
+## Cache-Control
+
+La cabecera `Cache-Control` define políticas de expiración y reutilización. Algunos ejemplos:
+
+```http
+Cache-Control: max-age=31536000, public
+```
+
+* `max-age=31536000` → el recurso puede almacenarse durante 1 año (en segundos).
+* `public` → cualquier caché (navegador, proxy, CDN) puede guardarlo.
+
+Otros valores útiles:
+
+* `no-cache` → el recurso debe verificarse con el servidor antes de usarse.
+* `no-store` → no se debe almacenar en caché (ej. respuestas sensibles).
+* `must-revalidate` → obliga a validar una vez expirado el tiempo.
+
+Ejemplo práctico: los archivos estáticos con nombres versionados (`app.v123.js`) suelen servirse con caché de un año, porque el nombre cambia cuando se actualizan.
+
+---
+
+## ETag
+
+La cabecera `ETag` funciona como un **identificador único** de un recurso, normalmente un hash generado a partir de su contenido.
+
+Ejemplo de respuesta del servidor:
+
+```http
+ETag: "abc123"
+Cache-Control: max-age=0, must-revalidate
+```
+
+En la siguiente visita, el navegador enviará:
+
+```http
+If-None-Match: "abc123"
+```
+
+Si el archivo no ha cambiado, el servidor responde con:
+
+```http
+304 Not Modified
+```
+
+👉 El navegador reutiliza el archivo local sin volver a descargarlo completo, ahorrando ancho de banda y tiempo.
+
+---
+
+## Estrategia combinada
+
+La práctica más común es combinar **Cache-Control** y **ETag**:
+
+1. **Archivos estáticos versionados (CSS, JS, imágenes):**
+
+   * `Cache-Control: max-age=31536000, immutable`
+   * Así, el navegador los guarda durante un año y nunca los revalida.
+   * Cuando cambia el archivo, también cambia su nombre (`main.abc123.js`), forzando una nueva descarga.
+
+2. **Archivos dinámicos o sin versionado (HTML, API JSON):**
+
+   * `Cache-Control: no-cache`
+   * `ETag` activado.
+   * Así, el navegador consulta al servidor si ha cambiado antes de descargarlo.
+
+---
+
+## Ejemplo en Nginx
+
+```nginx
+location /static/ {
+    expires 1y;
+    add_header Cache-Control "public, immutable";
+}
+
+location /api/ {
+    add_header Cache-Control "no-cache";
+    etag on;
+}
+```
+
+---
+
+## Conclusión
+
+* **Cache-Control** define la estrategia de almacenamiento (tiempo de vida, validez, reglas).
+* **ETag** permite validar si un recurso cambió sin necesidad de descargarlo nuevamente.
+* La combinación de ambos reduce significativamente la carga del servidor y acelera la experiencia de usuario en visitas recurrentes.
+
+En la práctica:
+
+* **Versiona tus archivos estáticos** y usa `Cache-Control: immutable`.
+* **Activa ETags o Last-Modified** para contenido dinámico que cambia con el tiempo.
+
+De esta forma, aseguras que los navegadores descarguen **solo lo que realmente ha cambiado**.
+
+---
+
+¿Quieres que prepare también un **diagrama visual del ciclo de caché** (primer request → validación condicional → uso de caché local) para complementar este artículo?

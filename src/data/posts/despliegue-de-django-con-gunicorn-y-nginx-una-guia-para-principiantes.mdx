@@ -1,0 +1,371 @@
+---
+slug: "despliegue-de-django-con-gunicorn-y-nginx"
+title: "Despliegue de Django con Gunicorn y Nginx: Una Guía para Principiantes"
+description: Aprende a desplegar tu aplicación Django en producción utilizando Gunicorn y Nginx.
+publishDate: 2023-10-01
+author: Diego Rivera
+tags: ["django", "desarrollo-web", "buenas-practicas", "devops"]
+---
+
+# Despliegue de Django con Gunicorn y Nginx: Una Guía para Principiantes
+
+![Django Deployment](https://i.imgur.com/7K7Z9Qp.png)
+
+Desplegar una aplicación Django en producción puede parecer abrumador para principiantes, pero con las herramientas adecuadas es un proceso sistemático. En esta guía, te mostraré cómo configurar tu aplicación Django con Gunicorn como servidor de aplicaciones y Nginx como proxy inverso.
+
+## Prerrequisitos
+
+- Un servidor Ubuntu 20.04/22.04 (física o VPS)
+- Acceso SSH con privilegios de superusuario
+- Un proyecto Django listo para producción
+- Dominio configurado y apuntando a tu servidor
+
+## Paso 1: Actualizar el Sistema
+
+```bash
+# Conectarse al servidor via SSH
+ssh usuario@tu_servidor
+
+# Actualizar paquetes existentes
+sudo apt update
+sudo apt upgrade -y
+
+# Instalar paquetes básicos
+sudo apt install -y python3-pip python3-dev python3-venv \
+libpq-dev nginx curl git
+```
+
+## Paso 2: Configurar el Entorno Python
+
+```bash
+# Crear directorio para la aplicación
+sudo mkdir -p /var/www/mi_app
+sudo chown $USER:$USER /var/www/mi_app
+
+# Crear entorno virtual
+cd /var/www/mi_app
+python3 -m venv venv
+source venv/bin/activate
+
+# Instalar dependencias
+pip install --upgrade pip
+pip install django gunicorn psycopg2-binary
+```
+
+## Paso 3: Configurar el Proyecto Django
+
+```bash
+# Copiar tu proyecto Django al servidor
+# (Usa git, rsync o scp según tu preferencia)
+
+# Ejemplo con git:
+git clone https://github.com/tu_usuario/mi_proyecto.git .
+
+# Instalar dependencias del proyecto
+pip install -r requirements.txt
+```
+
+### Configurar settings.py para producción
+
+```python
+# settings.py
+
+# Seguridad
+DEBUG = False
+ALLOWED_HOSTS = ['tu-dominio.com', 'www.tu-dominio.com', 'ip-del-servidor']
+
+# Base de datos PostgreSQL (recomendado para producción)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'mi_bd',
+        'USER': 'usuario_bd',
+        'PASSWORD': 'contraseña_segura',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+
+# Archivos estáticos
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Archivos multimedia
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+```
+
+### Aplicar migraciones y recoger archivos estáticos
+
+```bash
+# Aplicar migraciones de base de datos
+python manage.py migrate
+
+# Crear superusuario
+python manage.py createsuperuser
+
+# Recoger archivos estáticos
+python manage.py collectstatic
+```
+
+## Paso 4: Configurar Gunicorn
+
+Crear el archivo de configuración de Gunicorn:
+
+```bash
+# Crear directorio para sockets
+sudo mkdir -p /run/gunicorn
+
+# Crear archivo de configuración
+nano /var/www/mi_app/gunicorn_config.py
+```
+
+```python
+# gunicorn_config.py
+bind = "unix:/run/gunicorn/mi_app.sock"
+workers = 3
+worker_class = "gunicorn.workers.gthread.ThreadWorker"
+threads = 3
+worker_connections = 1000
+timeout = 30
+keepalive = 2
+errorlog = "/var/log/gunicorn/error.log"
+accesslog = "/var/log/gunicorn/access.log"
+loglevel = "info"
+```
+
+## Paso 5: Crear el Servicio Systemd para Gunicorn
+
+```bash
+# Crear servicio systemd
+sudo nano /etc/systemd/system/gunicorn.service
+```
+
+```ini
+[Unit]
+Description=gunicorn daemon for Mi App Django
+After=network.target
+
+[Service]
+User=usuario
+Group=www-data
+WorkingDirectory=/var/www/mi_app
+ExecStart=/var/www/mi_app/venv/bin/gunicorn \
+          --config /var/www/mi_app/gunicorn_config.py \
+          mi_proyecto.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+# Habilitar e iniciar el servicio
+sudo systemctl daemon-reload
+sudo systemctl start gunicorn
+sudo systemctl enable gunicorn
+
+# Verificar estado
+sudo systemctl status gunicorn
+```
+
+## Paso 6: Configurar Nginx como Proxy Inverso
+
+```bash
+# Crear configuración de Nginx
+sudo nano /etc/nginx/sites-available/mi_app
+```
+
+```nginx
+server {
+    listen 80;
+    server_name tu-dominio.com www.tu-dominio.com;
+
+    # Archivos estáticos
+    location /static/ {
+        alias /var/www/mi_app/staticfiles/;
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Archivos multimedia
+    location /media/ {
+        alias /var/www/mi_app/media/;
+        expires 30d;
+        add_header Cache-Control "public";
+    }
+
+    # Aplicación Django
+    location / {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://unix:/run/gunicorn/mi_app.sock;
+        proxy_read_timeout 300;
+        proxy_connect_timeout 300;
+        proxy_send_timeout 300;
+    }
+
+    # Prevenir acceso a archivos ocultos
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+}
+```
+
+```bash
+# Habilitar el sitio
+sudo ln -s /etc/nginx/sites-available/mi_app /etc/nginx/sites-enabled/
+
+# Verificar configuración de Nginx
+sudo nginx -t
+
+# Reiniciar Nginx
+sudo systemctl restart nginx
+```
+
+## Paso 7: Configurar SSL con Let's Encrypt (Opcional pero Recomendado)
+
+```bash
+# Instalar Certbot
+sudo apt install -y certbot python3-certbot-nginx
+
+# Obtener certificado SSL
+sudo certbot --nginx -d tu-dominio.com -d www.tu-dominio.com
+
+# Verificar renovación automática
+sudo certbot renew --dry-run
+```
+
+## Paso 8: Configurar el Firewall
+
+```bash
+# Configurar UFW (Uncomplicated Firewall)
+sudo ufw allow ssh
+sudo ufw allow 'Nginx Full'
+sudo ufw enable
+
+# Verificar reglas
+sudo ufw status
+```
+
+## Paso 9: Monitoreo y Mantenimiento
+
+### Configurar rotación de logs
+```bash
+# Configurar rotación de logs de Gunicorn
+sudo nano /etc/logrotate.d/gunicorn
+```
+
+```
+/var/log/gunicorn/*.log {
+    daily
+    missingok
+    rotate 14
+    compress
+    delaycompress
+    notifempty
+    create 640 usuario www-data
+    sharedscripts
+    postrotate
+        systemctl reload gunicorn > /dev/null 2>&1 || true
+    endscript
+}
+```
+
+### Script de despliegue automatizado
+```bash
+# Crear script de deploy
+nano /var/www/mi_app/deploy.sh
+```
+
+```bash
+#!/bin/bash
+cd /var/www/mi_app
+source venv/bin/activate
+git pull origin main
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py collectstatic --noinput
+sudo systemctl restart gunicorn
+sudo systemctl reload nginx
+echo "Despliegue completado!"
+```
+
+```bash
+# Hacer ejecutable el script
+chmod +x /var/www/mi_app/deploy.sh
+```
+
+## Paso 10: Verificación Final
+
+Comprueba que todo funciona correctamente:
+
+1. **Verifica que Gunicorn está ejecutándose:**
+   ```bash
+   sudo systemctl status gunicorn
+   ```
+
+2. **Verifica que Nginx está ejecutándose:**
+   ```bash
+   sudo systemctl status nginx
+   ```
+
+3. **Prueba la aplicación:**
+   ```bash
+   curl -I http://localhost
+   ```
+
+4. **Revisa los logs en caso de error:**
+   ```bash
+   sudo tail -f /var/log/nginx/error.log
+   sudo tail -f /var/log/gunicorn/error.log
+   ```
+
+## Solución de Problemas Comunes
+
+### Error 502 Bad Gateway
+- Verifica que Gunicorn está ejecutándose
+- Comprueba los permisos del socket: `ls -la /run/gunicorn/`
+
+### Error de permisos
+```bash
+# Asegurar permisos adecuados
+sudo chown -R usuario:www-data /var/www/mi_app
+sudo chmod -R 755 /var/www/mi_app
+```
+
+### Archivos estáticos no se muestran
+```bash
+# Volver a recoger archivos estáticos
+python manage.py collectstatic --noinput
+
+# Verificar permisos de directorios
+sudo chown -R www-data:www-data /var/www/mi_app/staticfiles
+```
+
+## Conclusión
+
+Has configurado exitosamente tu aplicación Django en producción usando:
+
+- **Gunicorn** como servidor de aplicaciones
+- **Nginx** como proxy inverso y servidor de archivos estáticos
+- **Systemd** para gestión de procesos
+- **Let's Encrypt** para certificados SSL
+- **UFW** para seguridad del firewall
+
+Esta configuración proporciona una base sólida para aplicaciones Django en producción. Para mayor escalabilidad, considera añadir:
+
+- Una base de datos PostgreSQL externa
+- Un CDN para archivos estáticos
+- Balanceador de carga para múltiples instancias
+- Sistema de monitoreo (Prometheus/Grafana)
+- Alertas de salud del servicio
+
+Recuerda realizar backups regularmente y mantener tu sistema actualizado con los últimos parches de seguridad.
+
+![Arquitectura de Despliegue](https://i.imgur.com/8K7Z9Qp.png)
+
+*Figura: Arquitectura del despliegue mostrando el flujo de peticiones desde el cliente hasta la aplicación Django.*
