@@ -19,8 +19,9 @@ const color = tagData?.data.color || "#6366f1"; // Default to primary-500 if not
 ---
 
 <span 
-    class="px-3 py-1 text-xs font-medium rounded-full border transition-all duration-200 cursor-pointer hover:brightness-95"
-    style={`background-color: ${color}15; color: ${color}; border-color: ${color}30;`}
+    class="inline-flex items-center px-3 py-1 text-xs font-bold rounded-full border transition-all duration-300 cursor-pointer hover:shadow-sm hover:scale-105"
+    style={`background-color: ${color}10; color: ${color}; border-color: ${color}25;`}
 >
+    <span class="w-1.5 h-1.5 rounded-full mr-2" style={`background-color: ${color};`}></span>
     {text || (tagData ? tagData.data.name : category)}
 </span>
