@@ -5,23 +5,53 @@ import "../styles/viewTransition.css";
 interface Props {
   title: string;
   description?: string;
+  image?: string;
+  canonicalURL?: URL;
 }
 
 const {
   title,
-  description = "A modern tech blog covering Django, Python, JavaScript and more.",
+  description = "Blog personal de Diego Rivera. Artículos técnicos sobre Python, Django, JavaScript y desarrollo web moderno.",
+  image = "/favicon.svg",
+  canonicalURL = new URL(Astro.url.pathname, Astro.site),
 } = Astro.props;
+
+const siteTitle = "Diego Rivera | Dev Blog";
+const fullTitle = `${title} | ${siteTitle}`;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
+    <!-- Global Metadata -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Primary Meta Tags -->
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
     <meta name="description" content={description} />
-    <title>{title}</title>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.url)} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:title" content={fullTitle} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+    <!-- Fonts & Scripts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -35,8 +65,8 @@ const {
   </head>
   <body class="font-inter bg-gray-50 text-gray-900" x-data="{ showMobileMenu: false, currentTheme: 'light' }">
     <slot />
+    <script>
+      quicklink.listen();
+    </script>
   </body>
-  <script>
-    quicklink.listen();
-  </script>
 </html>

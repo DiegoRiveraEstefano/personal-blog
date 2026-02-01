@@ -23,6 +23,7 @@ const { Content, headings } = await render(post);
   readTime={post.data.readTime}
   tags={post.data.tags}
   author={post.data.author}
+  image={post.data.image || "/favicon.svg"}
 >
   <Content />
 </BlogLayout>
