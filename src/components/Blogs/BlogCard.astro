@@ -3,44 +3,52 @@ import Category from '../Badges/Category.astro';
 
 interface Props {
   title: string;
-  excerpt: string;
-  date: string;
+  description: string;
+  publishDate: Date;
   tags: string[];
   slug: string;
   readTime: string;
-  author: string;
 }
 
-const { title, excerpt, date, tags, slug, readTime, author } = Astro.props;
+const { title, description, publishDate, tags, slug, readTime } = Astro.props;
 
+const formattedDate = publishDate.toLocaleDateString('es-ES', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
 ---
 
-<article class="bg-white rounded-2xl shadow-soft hover:shadow-soft-lg transition-all duration-300 overflow-hidden hover-lift">
-    <div class="h-48 gradient-primary"></div>
-    <div class="p-6">
-        <div class="flex items-center space-x-2 mb-3">
-            {tags.map(tag => (
+<article class="bg-white rounded-2xl shadow-soft hover:shadow-soft-lg transition-all duration-300 overflow-hidden hover-lift flex flex-col h-full">
+    <div class="h-48 gradient-primary shrink-0"></div>
+    <div class="p-6 flex flex-col flex-grow">
+        <div class="flex items-center space-x-2 mb-4 flex-wrap gap-y-2">
+            {tags.slice(0, 3).map(tag => (
                 <Category category={tag} text={tag} />
             ))}
-            <span class="text-xs text-gray-500">{readTime}</span>
+            <span class="text-xs text-gray-400 ml-auto whitespace-nowrap">{readTime}</span>
         </div>
-        <h3 class="text-xl font-semibold text-gray-900 mb-2 line-clamp-2">
-            {title}
+        
+        <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+            <a href={`/blog/${slug}`} class="hover:text-primary-600 transition-colors">
+                {title}
+            </a>
         </h3>
-        <p class="text-gray-600 mb-4 line-clamp-3">
-            {excerpt}
+        
+        <p class="text-gray-600 mb-6 line-clamp-3 flex-grow">
+            {description}
         </p>
-        <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-8 h-8 bg-gray-200 rounded-full"></div>
-                <div>
-                    <p class="text-sm font-medium text-gray-900">{author}</p>
-                    <p class="text-xs text-gray-500">{date}</p>
-                </div>
-            </div>
-            <button class="text-primary-600 hover:text-primary-700 font-medium text-sm">
-                <a href={`/blog/${slug}`}>Leer más →</a>
-            </button>
+        
+        <div class="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
+            <span class="text-xs font-medium text-gray-500 bg-gray-50 px-3 py-1 rounded-full">
+                {formattedDate}
+            </span>
+            <a href={`/blog/${slug}`} class="text-primary-600 hover:text-primary-700 font-medium text-sm inline-flex items-center group">
+                Leer artículo 
+                <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                </svg>
+            </a>
         </div>
     </div>
 </article>
