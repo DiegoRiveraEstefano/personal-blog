@@ -11,8 +11,16 @@ interface Props {
 
 const { category, text } = Astro.props;
 
-
-const color = tags.find(tag => tag.data.slug === category)?.data.color;
+const tagData = tags.find(tag => 
+    tag.data.slug.toLowerCase() === category.toLowerCase() || 
+    tag.data.name.toLowerCase() === category.toLowerCase()
+);
+const color = tagData?.data.color || "#6366f1"; // Default to primary-500 if not found
 ---
 
-<span class={`px-3 py-1 ${color || "bg-primary-100 text-primary-700"} text-sm font-medium rounded-lg hover:bg-primary-200 transition-colors duration-200 cursor-pointer`}>{text || category}</span>
+<span 
+    class="px-3 py-1 text-xs font-medium rounded-full border transition-all duration-200 cursor-pointer hover:brightness-95"
+    style={`background-color: ${color}15; color: ${color}; border-color: ${color}30;`}
+>
+    {text || (tagData ? tagData.data.name : category)}
+</span>
