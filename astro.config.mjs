@@ -22,7 +22,7 @@ export default defineConfig({
       },
     }),
   ],
-  site: "https://techblog.diego.dev",
+  site: "https://diegorivera.dev",
 
   vite: {
     plugins: [tailwindcss()],
