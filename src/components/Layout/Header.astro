@@ -1,57 +1,63 @@
-<!-- Header/Navbar -->
-<header class="sticky top-0 bg-white/80 backdrop-blur-md border-b border-gray-200 z-50 animate-slide-down">
-    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-            <!-- Logo -->
-            <a href="/" class="flex items-center space-x-2 group">
-                <div class="w-8 h-8 gradient-primary rounded-lg flex items-center justify-center transform group-hover:rotate-12 transition-transform">
-                    <span class="text-white font-bold text-sm">DR</span>
-                </div>
-                <span class="text-xl font-bold text-gray-900">Diego Rivera</span>
+<!-- Industrial Telemetry Console Header -->
+<header class="site-header">
+    <nav class="container site-nav">
+        <!-- Brand / Identity -->
+        <a href="/" class="brand-logo">
+            <span class="brand-badge">DR_SYS</span>
+            <span class="brand-title">Diego Rivera</span>
+            <span class="led-dot led-emerald" title="System Status: Online"></span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <div class="nav-links">
+            <a href="/" class="nav-link">
+                <span class="nav-index">01//</span>
+                <span>Home</span>
             </a>
-
-            <!-- Desktop Navigation -->
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="/" class="text-gray-600 hover:text-primary-600 transition-colors duration-200 font-medium">Home</a>
-                <a href="/blog" class="text-gray-600 hover:text-primary-600 transition-colors duration-200 font-medium">Artículos</a>
-                <a href="/about" class="text-gray-600 hover:text-primary-600 transition-colors duration-200 font-medium">Sobre mi</a>
-                <a href="/contact" class="text-gray-600 hover:text-primary-600 transition-colors duration-200 font-medium">Contacto</a>
-            </div>
-
-            <!-- Desktop Actions -->
-            <div class="hidden md:flex items-center space-x-4">
-                <button class="p-2 text-gray-500 hover:text-gray-700 transition-colors duration-200">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </button>
-                <button class="px-4 py-2 text-sm font-medium text-primary-600 hover:text-primary-700 border border-primary-200 hover:border-primary-300 rounded-lg transition-all duration-200">
-                    Suscríbete
-                </button>
-            </div>
-
-            <!-- Mobile Menu Button -->
-            <button @click="showMobileMenu = !showMobileMenu" class="md:hidden p-2 text-gray-600 hover:text-gray-900">
-                <svg x-show="!showMobileMenu" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-                <svg x-show="showMobileMenu" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
+            <a href="/blog" class="nav-link">
+                <span class="nav-index">02//</span>
+                <span>Artículos</span>
+            </a>
+            <a href="/about" class="nav-link">
+                <span class="nav-index">03//</span>
+                <span>Sobre mí</span>
+            </a>
+            <a href="/contact" class="nav-link">
+                <span class="nav-index">04//</span>
+                <span>Contacto</span>
+            </a>
         </div>
 
-        <!-- Mobile Menu -->
-        <div x-show="showMobileMenu" x-transition:enter="animate-slide-down" class="md:hidden py-4 border-t border-gray-200">
-            <div class="flex flex-col space-y-3">
-                <a href="/" class="text-gray-600 hover:text-primary-600 font-medium">Home</a>
-                <a href="/blog" class="text-gray-600 hover:text-primary-600 font-medium">Artículos</a>
-                <a href="/about" class="text-gray-600 hover:text-primary-600 font-medium">Sobre mi</a>
-                <a href="/contact" class="text-gray-600 hover:text-primary-600 font-medium">Contacto</a>
-                <button class="px-4 py-2 text-sm font-medium text-primary-600 border border-primary-200 rounded-lg text-left mt-4">
-                    Suscríbete
-                </button>
-            </div>
+        <!-- Desktop Actions -->
+        <div class="nav-actions">
+            <a href="/blog" class="btn btn-outline btn-sm">
+                [ EXPLORAR ]
+            </a>
         </div>
+
+        <!-- Mobile Menu Button -->
+        <button 
+            @click="showMobileMenu = !showMobileMenu" 
+            class="mobile-menu-btn" 
+            aria-label="Toggle navigation menu"
+        >
+            <svg x-show="!showMobileMenu" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            <svg x-show="showMobileMenu" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
     </nav>
+
+    <!-- Mobile Drawer -->
+    <div x-show="showMobileMenu" class="container mobile-drawer" style="display: none;">
+        <a href="/" class="nav-link"><span class="nav-index">01//</span> Home</a>
+        <a href="/blog" class="nav-link"><span class="nav-index">02//</span> Artículos</a>
+        <a href="/about" class="nav-link"><span class="nav-index">03//</span> Sobre mí</a>
+        <a href="/contact" class="nav-link"><span class="nav-index">04//</span> Contacto</a>
+        <div style="margin-top: var(--space-3);">
+            <a href="/blog" class="btn btn-primary btn-sm w-full">[ EXPLORAR BLOG ]</a>
+        </div>
+    </div>
 </header>

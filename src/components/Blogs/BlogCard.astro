@@ -19,36 +19,38 @@ const formattedDate = publishDate.toLocaleDateString('es-ES', {
 });
 ---
 
-<article class="bg-white rounded-2xl shadow-soft hover:shadow-soft-lg transition-all duration-300 overflow-hidden hover-lift flex flex-col h-full">
-    <div class="h-48 gradient-primary shrink-0"></div>
-    <div class="p-6 flex flex-col flex-grow">
-        <div class="flex items-center space-x-2 mb-4 flex-wrap gap-y-2">
-            {tags.slice(0, 3).map(tag => (
-                <Category category={tag} text={tag} />
-            ))}
-            <span class="text-xs text-gray-400 ml-auto whitespace-nowrap">{readTime}</span>
+<article class="telemetry-card">
+    <div>
+        <div class="telemetry-card-header">
+            <div class="flex items-center gap-1 flex-wrap">
+                {tags.slice(0, 2).map(tag => (
+                    <Category category={tag} text={tag} />
+                ))}
+            </div>
+            <span class="badge badge-amber font-mono" style="font-size: 0.72rem;">
+                {readTime}
+            </span>
         </div>
         
-        <h3 class="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
-            <a href={`/blog/${slug}`} class="hover:text-primary-600 transition-colors">
+        <h3 class="telemetry-card-title">
+            <a href={`/blog/${slug}`}>
                 {title}
             </a>
         </h3>
+    </div>
+    
+    <p class="telemetry-card-desc">
+        {description}
+    </p>
+    
+    <div class="telemetry-card-footer">
+        <time datetime={publishDate.toISOString()} class="flex items-center gap-1">
+            <span class="led-dot led-cyan" style="width: 4px; height: 4px;"></span>
+            {formattedDate}
+        </time>
         
-        <p class="text-gray-600 mb-6 line-clamp-3 flex-grow">
-            {description}
-        </p>
-        
-        <div class="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
-            <span class="text-xs font-medium text-gray-500 bg-gray-50 px-3 py-1 rounded-full">
-                {formattedDate}
-            </span>
-            <a href={`/blog/${slug}`} class="text-primary-600 hover:text-primary-700 font-medium text-sm inline-flex items-center group">
-                Leer artículo 
-                <svg class="w-4 h-4 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                </svg>
-            </a>
-        </div>
+        <a href={`/blog/${slug}`} class="btn btn-outline btn-sm" style="font-size: 0.72rem; padding: 0.2rem 0.6rem;">
+            [ REPORTE → ]
+        </a>
     </div>
 </article>

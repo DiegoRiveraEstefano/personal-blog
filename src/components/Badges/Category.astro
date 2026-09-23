@@ -1,5 +1,4 @@
 ---
-
 import { getCollection } from 'astro:content';
 
 const tags = await getCollection('tags');
@@ -15,13 +14,13 @@ const tagData = tags.find(tag =>
     tag.data.slug.toLowerCase() === category.toLowerCase() || 
     tag.data.name.toLowerCase() === category.toLowerCase()
 );
-const color = tagData?.data.color || "#6366f1"; // Default to primary-500 if not found
+const color = tagData?.data.color || "var(--signal-cyan)";
+const label = text || (tagData ? tagData.data.name : category);
 ---
 
 <span 
-    class="inline-flex items-center px-3 py-1 text-xs font-bold rounded-full border transition-all duration-300 cursor-pointer hover:shadow-sm hover:scale-105"
-    style={`background-color: ${color}10; color: ${color}; border-color: ${color}25;`}
+    class="badge badge-category"
 >
-    <span class="w-1.5 h-1.5 rounded-full mr-2" style={`background-color: ${color};`}></span>
-    {text || (tagData ? tagData.data.name : category)}
+    <span class="led-dot" style={`background-color: ${color}; width: 5px; height: 5px; box-shadow: 0 0 6px ${color};`}></span>
+    <span>{label}</span>
 </span>

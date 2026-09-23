@@ -1,24 +1,31 @@
-<!-- Footer -->
-<footer class="mt-20 bg-white rounded-2xl shadow-soft p-8 text-center animate-fade-in-up" style="animation-delay: 1.2s;">
-    <div class="mb-6">
-        <div class="flex items-center justify-center space-x-2 mb-4">
-            <div class="w-10 h-10 gradient-primary rounded-lg flex items-center justify-center">
-                <span class="text-white font-bold">DR</span>
-            </div>
-            <span class="text-2xl font-bold text-gray-900">Diego Rivera</span>
+<!-- Technical Spec Footer -->
+<footer class="site-footer">
+    <div class="container text-center">
+        <div class="flex items-center justify-center gap-3" style="margin-bottom: var(--space-4);">
+            <span class="brand-badge">DR_SYS // ARCH</span>
+            <span style="font-weight: 700; font-size: var(--text-lg);">Diego Rivera</span>
+            <span class="led-dot led-amber"></span>
         </div>
-        <p class="text-gray-600 max-w-md mx-auto">
-            Compartiendo conocimientos sobre Python, Django y el ecosistema del desarrollo web.
+        <p class="text-secondary" style="max-width: 50ch; margin-inline: auto; margin-bottom: var(--space-6); font-size: var(--text-sm);">
+            Artículos profundos y notas técnicas sobre Python, optimización de algoritmos, arquitectura backend e ingeniería de hardware.
         </p>
-    </div>
 
-    <div class="flex justify-center space-x-6 mb-6">
-        <!-- Social links remain unchanged -->
-    </div>
+        <div class="flex justify-center gap-6" style="margin-bottom: var(--space-8); font-family: var(--font-mono); font-size: var(--text-xs);">
+            <a href="https://github.com/DiegoRiveraEstefano" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
+                [ GITHUB ]
+            </a>
+            <a href="https://linkedin.com/in/diego-rivera-estefano" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
+                [ LINKEDIN ]
+            </a>
+            <a href="mailto:diego.rivera.estefano@gmail.com" class="btn btn-outline btn-sm">
+                [ EMAIL ]
+            </a>
+        </div>
 
-    <div class="border-t border-gray-200 pt-6">
-        <p class="text-sm text-gray-500">
-            © {new Date().getFullYear()} Diego Rivera. Desarrollado con Astro y Tailwind CSS.
-        </p>
+        <div style="border-top: 1px solid var(--border-subtle); padding-top: var(--space-6);" class="footer-meta">
+            <p>
+                SPEC // © {new Date().getFullYear()} Diego Rivera. Compilado con Astro &amp; CSS Vanilla Moderno (@layer + OKLCH).
+            </p>
+        </div>
     </div>
 </footer>
