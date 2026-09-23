@@ -23,16 +23,20 @@ const postsJSON = posts.map(post => ({
 <Layout title="Blog & Recursos Técnicos" description="Artículos profundos, tutoriales y guías sobre desarrollo backend, Python, Django y mejores prácticas de ingeniería de software.">
   <Header />
   
-  <main class="pt-24 pb-20 min-h-screen">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <main class="section-space">
+    <div class="container">
       
-      <!-- Hero Section -->
-      <div class="text-center mb-16 animate-fade-in-up">
-        <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">
-          Pensamiento <span class="bg-gradient-to-r from-primary-600 to-indigo-600 bg-clip-text text-transparent">Técnico</span> & Blog
+      <!-- Section Header -->
+      <div class="text-center section-header">
+        <div class="hero-spec-tag justify-center" style="margin-bottom: var(--space-2);">
+          <span class="led-dot led-amber"></span>
+          <span>INDEX // REGISTRO TÉCNICO &amp; BITÁCORA</span>
+        </div>
+        <h1 style="font-size: var(--text-3xl); font-weight: 700; margin-bottom: var(--space-3);">
+          Artículos &amp; Notas de Arquitectura
         </h1>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-          Explora artículos sobre arquitectura, rendimiento y el arte de escribir código mantenible.
+        <p style="margin-inline: auto;">
+          Análisis profundos sobre rendimiento backend, patrones de concurrencia y buenas prácticas en Python.
         </p>
       </div>
       
@@ -86,17 +90,17 @@ const postsJSON = posts.map(post => ({
       }`}>
 
         <!-- Controls Container -->
-        <div class="mb-12 space-y-8">
+        <div style="margin-bottom: var(--space-10); display: flex; flex-direction: column; gap: var(--space-6);">
             
             <!-- Search Bar -->
-            <div class="max-w-md mx-auto relative">
+            <div class="search-wrapper">
                 <input 
                     x-model="search"
                     type="text" 
-                    placeholder="Buscar artículos..." 
-                    class="w-full px-5 py-3 pl-12 border border-gray-300 rounded-full focus:ring-4 focus:ring-primary-100 focus:border-primary-500 outline-none transition-all shadow-sm text-gray-700"
+                    placeholder="[ BUSCAR POR PALABRA CLAVE... ]" 
+                    class="search-input"
                 />
-                <svg class="w-5 h-5 text-gray-400 absolute left-4 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
             </div>
@@ -105,11 +109,10 @@ const postsJSON = posts.map(post => ({
             <div class="flex flex-wrap gap-2 justify-center">
                 {categories.map(category => (
                     <button 
-                    @click={`currentCategory = '${category}'`}
-                    :class={`currentCategory === '${category}' ? 'bg-primary-600 border-primary-600 text-white shadow-md' : 'bg-white border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 hover:bg-gray-50'`}
-                    class="px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 border"
+                      @click={`currentCategory = '${category}'`}
+                      :class={`currentCategory === '${category}' ? 'filter-pill is-active' : 'filter-pill'`}
                     >
-                    {category}
+                      [ {category.toUpperCase()} ]
                     </button>
                 ))}
             </div>
@@ -117,48 +120,43 @@ const postsJSON = posts.map(post => ({
         </div>
         
         <!-- Blog Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[400px]">
+        <div class="telemetry-grid" style="min-height: 400px;">
           {posts.map(post => (
             <div 
               x-show={`visibleSlugs.includes('${post.data.slug}')`}
-              x-transition:enter="transition ease-out duration-300"
-              x-transition:enter-start="opacity-0 transform scale-95"
-              x-transition:enter-end="opacity-100 transform scale-100"
-              style="display: none;" 
+              style="display: contents;" 
             >
               <BlogCard {...post.data} />
             </div>
           ))}
           
           <!-- No Results Message -->
-          <div x-show="filteredPosts.length === 0" class="col-span-full text-center py-12" style="display: none;">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
-                    <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
+          <div x-show="filteredPosts.length === 0" class="text-center" style="grid-column: 1 / -1; padding-block: var(--space-12); display: none;">
+                <div class="alert-box alert-warning" style="max-width: 480px; margin-inline: auto; text-align: left;">
+                    <span class="led-dot led-amber" style="margin-top: 5px;"></span>
+                    <div>
+                        <strong style="display: block; font-family: var(--font-mono); font-size: var(--text-sm);">[ TELEMETRÍA // 0 RESULTADOS ]</strong>
+                        <p style="font-size: var(--text-xs); margin-top: var(--space-1);">No se encontraron especificaciones que coincidan con la búsqueda o categoría.</p>
+                    </div>
                 </div>
-                <h3 class="text-lg font-medium text-gray-900">No se encontraron artículos</h3>
-                <p class="text-gray-500">Intenta con otros términos o cambia la categoría.</p>
           </div>
         </div>
         
         <!-- Pagination Controls -->
-        <div class="mt-16 flex justify-center items-center space-x-2" x-show="totalPages > 1" x-cloak>
+        <div class="pagination-container" x-show="totalPages > 1" x-cloak>
             <button 
                 @click="prevPage" 
                 :disabled="currentPage === 1"
-                class="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                class="pagination-btn"
+                aria-label="Página anterior"
             >
-                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
+                ←
             </button>
             
             <template x-for="page in totalPages" :key="page">
                 <button 
                     @click="goToPage(page)"
-                    :class="currentPage === page ? 'bg-primary-600 text-white border-primary-600' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'"
-                    class="w-10 h-10 rounded-lg border font-medium transition-all duration-200"
+                    :class="currentPage === page ? 'pagination-btn is-active' : 'pagination-btn'"
                     x-text="page"
                 ></button>
             </template>
@@ -166,11 +164,10 @@ const postsJSON = posts.map(post => ({
             <button 
                 @click="nextPage" 
                 :disabled="currentPage === totalPages"
-                class="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                class="pagination-btn"
+                aria-label="Página siguiente"
             >
-                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
+                →
             </button>
         </div>
 
