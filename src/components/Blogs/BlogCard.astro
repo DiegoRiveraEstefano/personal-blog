@@ -1,5 +1,6 @@
 ---
 import Category from '../Badges/Category.astro';
+import { basePath } from '../../utils/paths';
 
 interface Props {
   title: string;
@@ -33,7 +34,7 @@ const formattedDate = publishDate.toLocaleDateString('es-ES', {
         </div>
         
         <h3 class="telemetry-card-title">
-            <a href={`/blog/${slug}`}>
+            <a href={`${basePath}/blog/${slug}`}>
                 {title}
             </a>
         </h3>
@@ -49,7 +50,7 @@ const formattedDate = publishDate.toLocaleDateString('es-ES', {
             {formattedDate}
         </time>
         
-        <a href={`/blog/${slug}`} class="btn btn-outline btn-sm" style="font-size: 0.72rem; padding: 0.2rem 0.6rem;">
+        <a href={`${basePath}/blog/${slug}`} class="btn btn-outline btn-sm" style="font-size: 0.72rem; padding: 0.2rem 0.6rem;">
             [ REPORTE → ]
         </a>
     </div>

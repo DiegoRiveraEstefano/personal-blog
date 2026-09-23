@@ -4,6 +4,7 @@ import Header from "../components/Layout/Header.astro";
 import Footer from "../components/Layout/Footer.astro";
 import BlogCard from '../components/Blogs/BlogCard.astro'; 
 import { getCollection } from 'astro:content';
+import { basePath } from '../utils/paths';
 
 const posts = await getCollection('posts');
 ---
@@ -29,10 +30,10 @@ const posts = await getCollection('posts');
       </p>
       
       <div class="flex items-center gap-4 flex-wrap">
-        <a href="/blog" class="btn btn-primary btn-lg">
+        <a href={`${basePath}/blog`} class="btn btn-primary btn-lg">
           [ EXPLORAR ARTÍCULOS ]
         </a>
-        <a href="/about" class="btn btn-outline btn-lg">
+        <a href={`${basePath}/about`} class="btn btn-outline btn-lg">
           [ MI TRAYECTORIA ]
         </a>
       </div>

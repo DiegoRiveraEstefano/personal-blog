@@ -1,8 +1,12 @@
+---
+import { basePath } from '../../utils/paths';
+---
+
 <!-- Industrial Telemetry Console Header -->
 <header class="site-header">
     <nav class="container site-nav">
         <!-- Brand / Identity -->
-        <a href="/" class="brand-logo">
+        <a href={`${basePath}/`} class="brand-logo">
             <span class="brand-badge">DR_SYS</span>
             <span class="brand-title">Diego Rivera</span>
             <span class="led-dot led-emerald" title="System Status: Online"></span>
@@ -10,19 +14,19 @@
 
         <!-- Desktop Navigation -->
         <div class="nav-links">
-            <a href="/" class="nav-link">
+            <a href={`${basePath}/`} class="nav-link">
                 <span class="nav-index">01//</span>
                 <span>Home</span>
             </a>
-            <a href="/blog" class="nav-link">
+            <a href={`${basePath}/blog`} class="nav-link">
                 <span class="nav-index">02//</span>
                 <span>Artículos</span>
             </a>
-            <a href="/about" class="nav-link">
+            <a href={`${basePath}/about`} class="nav-link">
                 <span class="nav-index">03//</span>
                 <span>Sobre mí</span>
             </a>
-            <a href="/contact" class="nav-link">
+            <a href={`${basePath}/contact`} class="nav-link">
                 <span class="nav-index">04//</span>
                 <span>Contacto</span>
             </a>
@@ -51,7 +55,7 @@
                 <span class="theme-icon-light font-mono">[ MODO OSCURO ]</span>
             </button>
 
-            <a href="/blog" class="btn btn-outline btn-sm">
+            <a href={`${basePath}/blog`} class="btn btn-outline btn-sm">
                 [ EXPLORAR ]
             </a>
         </div>
@@ -95,12 +99,12 @@
 
     <!-- Mobile Drawer -->
     <div x-show="showMobileMenu" class="container mobile-drawer" style="display: none;">
-        <a href="/" class="nav-link"><span class="nav-index">01//</span> Home</a>
-        <a href="/blog" class="nav-link"><span class="nav-index">02//</span> Artículos</a>
-        <a href="/about" class="nav-link"><span class="nav-index">03//</span> Sobre mí</a>
-        <a href="/contact" class="nav-link"><span class="nav-index">04//</span> Contacto</a>
+        <a href={`${basePath}/`} class="nav-link"><span class="nav-index">01//</span> Home</a>
+        <a href={`${basePath}/blog`} class="nav-link"><span class="nav-index">02//</span> Artículos</a>
+        <a href={`${basePath}/about`} class="nav-link"><span class="nav-index">03//</span> Sobre mí</a>
+        <a href={`${basePath}/contact`} class="nav-link"><span class="nav-index">04//</span> Contacto</a>
         <div style="margin-top: var(--space-3);">
-            <a href="/blog" class="btn btn-primary btn-sm w-full">[ EXPLORAR BLOG ]</a>
+            <a href={`${basePath}/blog`} class="btn btn-primary btn-sm w-full">[ EXPLORAR BLOG ]</a>
         </div>
     </div>
 </header>
