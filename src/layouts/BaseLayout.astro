@@ -1,5 +1,5 @@
 ---
-import "../styles/global.css";
+import "../styles/main.css";
 import "../styles/viewTransition.css";
 
 interface Props {
@@ -14,7 +14,7 @@ const {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,11 +28,11 @@ const {
       src="https://unpkg.com/quicklink@3.0.1/dist/quicklink.umd.js"
       type="text/partytown"></script>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
-  <body class="bg-space-950 text-space-100 min-h-screen">
+  <body class="bg-grid-blueprint">
     <slot />
   </body>
   <script>

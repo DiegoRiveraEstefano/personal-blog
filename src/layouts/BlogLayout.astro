@@ -1,6 +1,4 @@
 ---
-import "../styles/global.css";
-import "../styles/viewTransition.css";
 import Header from "../components/Layout/Header.astro";
 import Footer from "../components/Layout/Footer.astro";
 import Layout from "./Layout.astro";
@@ -34,38 +32,42 @@ const formattedDate = new Date(date).toLocaleDateString('es-ES', {
 
 <Layout title={title} description={description} image={image}>
   <Header />
-  <main class="pt-32 pb-20 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+  <main class="section-space">
+    <article class="container-prose">
       
-      <header class="mb-12">
-        <div class="flex flex-wrap gap-2 mb-6">
+      <!-- Technical Document Header -->
+      <header style="margin-bottom: var(--space-8); padding-bottom: var(--space-6); border-bottom: 1px solid var(--border-subtle);">
+        <div class="flex items-center gap-2 flex-wrap" style="margin-bottom: var(--space-4);">
+          <span class="badge badge-amber font-mono">[ DOC.SPEC ]</span>
           {tags.map(tag => <Category category={tag} />)}
         </div>
         
-        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
+        <h1 style="font-size: var(--text-3xl); font-weight: 700; line-height: 1.15; margin-bottom: var(--space-4); letter-spacing: -0.02em;">
           {title}
         </h1>
         
-        <div class="flex items-center text-gray-500 text-sm font-medium">
-          <time datetime={new Date(date).toISOString()}>{formattedDate}</time>
-          <span class="mx-3 text-gray-300">•</span>
-          <span>{readTime}</span>
+        <div class="flex items-center gap-4 font-mono" style="font-size: var(--text-xs); color: var(--text-muted);">
+          <time datetime={new Date(date).toISOString()} class="flex items-center gap-1">
+            <span class="led-dot led-cyan" style="width: 4px; height: 4px;"></span>
+            {formattedDate}
+          </time>
+          <span>//</span>
+          <span>TIEMPO: {readTime}</span>
         </div>
       </header>
 
-      <div class="prose prose-lg prose-indigo max-w-none prose-headings:font-bold prose-a:text-primary-600">
+      <!-- Content Area -->
+      <div class="prose">
         <slot />
       </div>
 
-      <div class="mt-16 pt-8 border-t border-gray-100">
-        <a href="/blog" class="inline-flex items-center text-primary-600 font-bold hover:text-primary-700 transition-colors">
-          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-          </svg>
-          Volver al Blog
+      <!-- Footer Navigation -->
+      <div style="margin-top: var(--space-12); padding-top: var(--space-6); border-top: 1px solid var(--border-subtle);">
+        <a href="/blog" class="btn btn-outline btn-sm">
+          ← [ REGRESAR AL ÍNDICE DE ARTÍCULOS ]
         </a>
       </div>
-    </div>
+    </article>
   </main>
   <Footer />
 </Layout>
