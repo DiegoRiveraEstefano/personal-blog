@@ -30,24 +30,67 @@
 
         <!-- Desktop Actions -->
         <div class="nav-actions">
+            <button 
+                class="theme-toggle-btn js-theme-toggle" 
+                aria-label="Cambiar tema de color"
+                title="Alternar modo claro / oscuro"
+                type="button"
+            >
+                <span class="theme-icon-dark" aria-hidden="true">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5" stroke-width="2"/>
+                        <path stroke-linecap="round" stroke-width="2" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                </span>
+                <span class="theme-icon-light" aria-hidden="true">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                    </svg>
+                </span>
+                <span class="theme-icon-dark font-mono">[ MODO CLARO ]</span>
+                <span class="theme-icon-light font-mono">[ MODO OSCURO ]</span>
+            </button>
+
             <a href="/blog" class="btn btn-outline btn-sm">
                 [ EXPLORAR ]
             </a>
         </div>
 
-        <!-- Mobile Menu Button -->
-        <button 
-            @click="showMobileMenu = !showMobileMenu" 
-            class="mobile-menu-btn" 
-            aria-label="Toggle navigation menu"
-        >
-            <svg x-show="!showMobileMenu" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-            <svg x-show="showMobileMenu" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </button>
+        <!-- Mobile Menu Button & Quick Theme Toggle -->
+        <div class="flex items-center gap-2" style="display: flex;">
+            <button 
+                class="theme-toggle-btn js-theme-toggle" 
+                aria-label="Cambiar tema de color"
+                title="Alternar modo claro / oscuro"
+                type="button"
+                style="padding: var(--space-2); display: flex;"
+            >
+                <span class="theme-icon-dark" aria-hidden="true">
+                    <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="5" stroke-width="2"/>
+                        <path stroke-linecap="round" stroke-width="2" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                </span>
+                <span class="theme-icon-light" aria-hidden="true">
+                    <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                    </svg>
+                </span>
+            </button>
+
+            <button 
+                @click="showMobileMenu = !showMobileMenu" 
+                class="mobile-menu-btn" 
+                aria-label="Toggle navigation menu"
+            >
+                <svg x-show="!showMobileMenu" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+                <svg x-show="showMobileMenu" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
     </nav>
 
     <!-- Mobile Drawer -->
@@ -61,3 +104,26 @@
         </div>
     </div>
 </header>
+
+<script>
+  function setupThemeToggle() {
+    const toggleButtons = document.querySelectorAll('.js-theme-toggle');
+    toggleButtons.forEach(btn => {
+      // Remove any existing click listeners to avoid duplicates
+      btn.replaceWith(btn.cloneNode(true));
+    });
+
+    document.querySelectorAll('.js-theme-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme') || 'dark';
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    });
+  }
+
+  // Setup on initial load and view transitions
+  setupThemeToggle();
+  document.addEventListener('astro:page-load', setupThemeToggle);
+</script>

@@ -81,7 +81,7 @@
   }
 
   /* Support for Light Blueprint Mode (Drafting Paper) */
-  [data-theme="light"] {
+  :root[data-theme="light"] {
     --surface-ground: oklch(0.96 0.01 230);
     --surface-panel: oklch(0.99 0.005 230);
     --surface-raised: oklch(0.93 0.015 230);

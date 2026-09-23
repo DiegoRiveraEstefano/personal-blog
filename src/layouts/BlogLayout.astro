@@ -3,6 +3,7 @@ import Header from "../components/Layout/Header.astro";
 import Footer from "../components/Layout/Footer.astro";
 import Layout from "./Layout.astro";
 import Category from "../components/Badges/Category.astro";
+import { basePath } from "../utils/paths";
 
 interface Props {
   title: string;
@@ -63,7 +64,7 @@ const formattedDate = new Date(date).toLocaleDateString('es-ES', {
 
       <!-- Footer Navigation -->
       <div style="margin-top: var(--space-12); padding-top: var(--space-6); border-top: 1px solid var(--border-subtle);">
-        <a href="/blog" class="btn btn-outline btn-sm">
+        <a href={`${basePath}/blog`} class="btn btn-outline btn-sm">
           ← [ REGRESAR AL ÍNDICE DE ARTÍCULOS ]
         </a>
       </div>
