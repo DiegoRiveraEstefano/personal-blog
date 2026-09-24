@@ -1,0 +1,45 @@
+---
+import BlogCard from './BlogCard.astro';
+
+interface PostData {
+  title: string;
+  description: string;
+  publishDate: Date;
+  tags: string[];
+  slug: string;
+  readTime: string;
+  series?: {
+    id: string;
+    title?: string;
+    part: number;
+  };
+}
+
+interface Props {
+  posts: PostData[];
+}
+
+const { posts } = Astro.props;
+---
+
+{posts && posts.length > 0 && (
+  <section class="recommended-posts-section" style="margin-top: var(--space-12); padding-top: var(--space-8); border-top: 1px solid var(--border-subtle);">
+    <div class="flex items-center justify-between" style="margin-bottom: var(--space-6);">
+      <div class="flex items-center gap-2">
+        <span class="led-dot led-cyan"></span>
+        <span class="font-mono uppercase text-secondary tracking-wider" style="font-size: var(--text-xs); font-weight: 600;">
+          // TELEMETRÍA // LECTURAS TÉCNICAS RECOMENDADAS
+        </span>
+      </div>
+      <span class="badge font-mono" style="font-size: var(--text-xs);">
+        {posts.length} SUGERENCIAS
+      </span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: var(--space-6);">
+      {posts.map((post) => (
+        <BlogCard {...post} />
+      ))}
+    </div>
+  </section>
+)}

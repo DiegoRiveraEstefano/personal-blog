@@ -16,18 +16,10 @@ import { basePath } from '../../utils/paths';
         <div class="nav-links">
             <a href={`${basePath}/`} class="nav-link">
                 <span class="nav-index">01//</span>
-                <span>Home</span>
-            </a>
-            <a href={`${basePath}/blog`} class="nav-link">
-                <span class="nav-index">02//</span>
                 <span>Artículos</span>
             </a>
-            <a href={`${basePath}/about`} class="nav-link">
-                <span class="nav-index">03//</span>
-                <span>Sobre mí</span>
-            </a>
             <a href={`${basePath}/contact`} class="nav-link">
-                <span class="nav-index">04//</span>
+                <span class="nav-index">02//</span>
                 <span>Contacto</span>
             </a>
         </div>
@@ -55,8 +47,8 @@ import { basePath } from '../../utils/paths';
                 <span class="theme-icon-light font-mono">[ MODO OSCURO ]</span>
             </button>
 
-            <a href={`${basePath}/blog`} class="btn btn-outline btn-sm">
-                [ EXPLORAR ]
+            <a href={`${basePath}/contact`} class="btn btn-outline btn-sm">
+                [ CONTACTO ]
             </a>
         </div>
 
@@ -99,12 +91,10 @@ import { basePath } from '../../utils/paths';
 
     <!-- Mobile Drawer -->
     <div x-show="showMobileMenu" class="container mobile-drawer" style="display: none;">
-        <a href={`${basePath}/`} class="nav-link"><span class="nav-index">01//</span> Home</a>
-        <a href={`${basePath}/blog`} class="nav-link"><span class="nav-index">02//</span> Artículos</a>
-        <a href={`${basePath}/about`} class="nav-link"><span class="nav-index">03//</span> Sobre mí</a>
-        <a href={`${basePath}/contact`} class="nav-link"><span class="nav-index">04//</span> Contacto</a>
+        <a href={`${basePath}/`} class="nav-link"><span class="nav-index">01//</span> Artículos</a>
+        <a href={`${basePath}/contact`} class="nav-link"><span class="nav-index">02//</span> Contacto</a>
         <div style="margin-top: var(--space-3);">
-            <a href={`${basePath}/blog`} class="btn btn-primary btn-sm w-full">[ EXPLORAR BLOG ]</a>
+            <a href={`${basePath}/contact`} class="btn btn-primary btn-sm w-full">[ CONTACTAR ]</a>
         </div>
     </div>
 </header>

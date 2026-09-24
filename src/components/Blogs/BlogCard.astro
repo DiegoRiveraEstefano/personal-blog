@@ -9,9 +9,14 @@ interface Props {
   tags: string[];
   slug: string;
   readTime: string;
+  series?: {
+    id: string;
+    title?: string;
+    part: number;
+  };
 }
 
-const { title, description, publishDate, tags, slug, readTime } = Astro.props;
+const { title, description, publishDate, tags, slug, readTime, series } = Astro.props;
 
 const formattedDate = publishDate.toLocaleDateString('es-ES', {
   year: 'numeric',
@@ -27,6 +32,11 @@ const formattedDate = publishDate.toLocaleDateString('es-ES', {
                 {tags.slice(0, 2).map(tag => (
                     <Category category={tag} text={tag} />
                 ))}
+                {series && (
+                    <span class="badge badge-amber font-mono" style="font-size: 0.68rem; padding: 0.1rem 0.4rem;">
+                        SERIE // PT {series.part}
+                    </span>
+                )}
             </div>
             <span class="badge badge-amber font-mono" style="font-size: 0.72rem;">
                 {readTime}
