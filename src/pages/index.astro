@@ -19,11 +19,48 @@ const postsJSON = posts.map(post => ({
   description: post.data.description,
   tags: post.data.tags
 }));
+// Structured Data (JSON-LD) for Google & Search Engines
+const homeSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Diego Rivera | Dev Blog",
+    "alternateName": ["DR_SYS Blog", "Diego Rivera Tech Blog", "Bitácora de Arquitectura"],
+    "url": "https://diegoriveraestefano.github.io/personal-blog/",
+    "description": "Bitácora técnica sobre diseño de backends escalables, optimización algorítmica, concurrencia y buenas prácticas en Python, Django y sistemas distribuidos.",
+    "inLanguage": "es-ES",
+    "publisher": {
+      "@type": "Person",
+      "name": "Diego Rivera",
+      "url": "https://diegoriveraestefano.github.io/portafolio/"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Bitácora Técnica & Arquitectura de Software",
+    "url": "https://diegoriveraestefano.github.io/personal-blog/",
+    "description": "Artículos técnicos, tutoriales profundos y análisis sobre desarrollo backend, Python, Django, optimización algorítmica y sistemas de alto rendimiento.",
+    "blogPost": posts.slice(0, 10).map((post) => ({
+      "@type": "BlogPosting",
+      "headline": post.data.title,
+      "description": post.data.description,
+      "datePublished": post.data.publishDate.toISOString(),
+      "url": `https://diegoriveraestefano.github.io/personal-blog/blog/${post.data.slug}/`,
+      "author": {
+        "@type": "Person",
+        "name": post.data.author || "Diego Rivera"
+      }
+    }))
+  }
+];
 ---
 
 <Layout 
   title="Bitácora Técnica & Arquitectura de Software" 
   description="Artículos técnicos, tutoriales profundos y análisis sobre desarrollo backend, Python, Django, optimización algorítmica y sistemas de alto rendimiento."
+  tags={["Python", "Django", "Backend", "Arquitectura de Software", "Rendimiento", "Algoritmos", "DevOps", "Bases de Datos"]}
+  schema={homeSchema}
 >
   <Header />
   
@@ -62,9 +99,9 @@ const postsJSON = posts.map(post => ({
     <div class="flex items-center justify-between" style="margin-bottom: var(--space-8); padding-bottom: var(--space-3); border-bottom: 1px solid var(--border-subtle);">
       <div class="flex items-center gap-2">
         <span class="led-dot led-cyan" style="width: 6px; height: 6px;"></span>
-        <span class="font-mono uppercase text-secondary tracking-wider" style="font-size: var(--text-xs); font-weight: 600;">
+        <h2 class="font-mono uppercase text-secondary tracking-wider" style="font-size: var(--text-xs); font-weight: 600; margin: 0;">
           // REGISTRO DE PUBLICACIONES TÉCNICAS
-        </span>
+        </h2>
       </div>
       <span class="badge font-mono" style="font-size: var(--text-xs);">
         TOTAL: {posts.length} ARTÍCULOS

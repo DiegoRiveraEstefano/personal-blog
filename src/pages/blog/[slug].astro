@@ -82,6 +82,65 @@ export async function getStaticPaths() {
 
 const { post, seriesData, recommendedPosts } = Astro.props;
 const { Content, headings } = await render(post);
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://diegoriveraestefano.github.io').toString();
+const postImage = post.data.image || '/personal-blog/images/og-default.png';
+const absoluteImage = postImage.startsWith('http://') || postImage.startsWith('https://')
+  ? postImage
+  : new URL(postImage, Astro.site || 'https://diegoriveraestefano.github.io').toString();
+
+const postSchema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": post.data.title,
+    "description": post.data.description,
+    "datePublished": post.data.publishDate.toISOString(),
+    "dateModified": post.data.publishDate.toISOString(),
+    "inLanguage": "es-ES",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": canonicalURL
+    },
+    "image": absoluteImage,
+    "author": {
+      "@type": "Person",
+      "name": post.data.author || "Diego Rivera",
+      "url": "https://diegoriveraestefano.github.io/portafolio/"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Diego Rivera",
+      "url": "https://diegoriveraestefano.github.io/portafolio/"
+    },
+    "keywords": post.data.tags.join(", "),
+    "articleSection": post.data.tags[0] || "Software Engineering"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://diegoriveraestefano.github.io/personal-blog/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Artículos",
+        "item": "https://diegoriveraestefano.github.io/personal-blog/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": post.data.title,
+        "item": canonicalURL
+      }
+    ]
+  }
+];
 ---
 
 <BlogLayout 
@@ -91,9 +150,10 @@ const { Content, headings } = await render(post);
   readTime={post.data.readTime}
   tags={post.data.tags}
   author={post.data.author}
-  image={post.data.image || "/favicon.svg"}
+  image={post.data.image}
   seriesData={seriesData}
   recommendedPosts={recommendedPosts}
+  schema={postSchema}
 >
   <Content />
 </BlogLayout>
