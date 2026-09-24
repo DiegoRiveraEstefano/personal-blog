@@ -1,24 +1,34 @@
 ---
 import "../styles/main.css";
 import "../styles/viewTransition.css";
+import SEO from "../components/SEO/SEO.astro";
 import { basePath } from "../utils/paths";
 
 interface Props {
   title: string;
   description?: string;
   image?: string;
-  canonicalURL?: URL;
+  canonicalURL?: URL | string;
+  type?: "website" | "article";
+  publishedTime?: Date | string;
+  modifiedTime?: Date | string;
+  author?: string;
+  tags?: string[];
+  schema?: Record<string, any> | Record<string, any>[];
 }
 
 const {
   title,
-  description = "Blog personal de Diego Rivera. Artículos técnicos sobre Python, Django, JavaScript y desarrollo web moderno.",
-  image = `${basePath}/favicon.svg`,
-  canonicalURL = new URL(Astro.url.pathname, Astro.site),
+  description = "Bitácora técnica sobre diseño de backends escalables, optimización algorítmica, concurrencia y buenas prácticas en Python, Django y sistemas distribuidos.",
+  image,
+  canonicalURL,
+  type = "website",
+  publishedTime,
+  modifiedTime,
+  author = "Diego Rivera",
+  tags = [],
+  schema,
 } = Astro.props;
-
-const siteTitle = "Diego Rivera | Dev Blog";
-const fullTitle = `${title} | ${siteTitle}`;
 ---
 
 <!doctype html>
@@ -30,27 +40,19 @@ const fullTitle = `${title} | ${siteTitle}`;
     <link rel="icon" type="image/svg+xml" href={`${basePath}/favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href={canonicalURL} />
-
-    <!-- Primary Meta Tags -->
-    <title>{fullTitle}</title>
-    <meta name="title" content={fullTitle} />
-    <meta name="description" content={description} />
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url} />
-    <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, Astro.url)} />
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={Astro.url} />
-    <meta property="twitter:title" content={fullTitle} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    <!-- SEO & Social Open Graph / Twitter / Schema.org -->
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      canonicalURL={canonicalURL}
+      type={type}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      author={author}
+      tags={tags}
+      schema={schema}
+    />
 
     <!-- Fonts & Scripts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

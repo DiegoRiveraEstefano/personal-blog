@@ -17,6 +17,7 @@ interface Props {
   image?: string;
   seriesData?: any;
   recommendedPosts?: any[];
+  schema?: Record<string, any> | Record<string, any>[];
 }
 
 const {
@@ -25,9 +26,11 @@ const {
   date,
   readTime,
   tags,
+  author = "Diego Rivera",
   image,
   seriesData,
   recommendedPosts = [],
+  schema,
 } = Astro.props;
 
 const formattedDate = new Date(date).toLocaleDateString('es-ES', {
@@ -37,7 +40,16 @@ const formattedDate = new Date(date).toLocaleDateString('es-ES', {
 });
 ---
 
-<Layout title={title} description={description} image={image}>
+<Layout 
+  title={title} 
+  description={description} 
+  image={image}
+  type="article"
+  publishedTime={date}
+  author={author}
+  tags={tags}
+  schema={schema}
+>
   <Header />
   <main class="section-space">
     <article class="container-prose">
