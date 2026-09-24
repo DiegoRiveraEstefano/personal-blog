@@ -1,18 +1,86 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro';
-import { getCollection } from 'astro:content';
-import { getEntry, render } from 'astro:content';
-
+import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
-  return posts.map((post) => ({
-    params: { slug: post.data.slug },
-    props: { post },
-  }));
+  const allPosts = await getCollection('posts');
+
+  return allPosts.map((post) => {
+    // 1. Multi-part series resolution
+    let seriesData = null;
+    if (post.data.series) {
+      const seriesId = post.data.series.id;
+      const seriesPosts = allPosts
+        .filter((p) => p.data.series && p.data.series.id === seriesId)
+        .sort((a, b) => (a.data.series?.part ?? 0) - (b.data.series?.part ?? 0));
+
+      const nextParts = seriesPosts.filter((p) => (p.data.series?.part ?? 0) > (post.data.series?.part ?? 0));
+      const prevParts = seriesPosts.filter((p) => (p.data.series?.part ?? 0) < (post.data.series?.part ?? 0));
+
+      seriesData = {
+        id: seriesId,
+        title: post.data.series.title || `Serie: ${seriesId}`,
+        currentPart: post.data.series.part,
+        totalParts: seriesPosts.length,
+        parts: seriesPosts.map((p) => ({
+          slug: p.data.slug,
+          title: p.data.title,
+          part: p.data.series!.part,
+          isCurrent: p.data.slug === post.data.slug,
+        })),
+        nextPost: nextParts.length > 0 ? {
+          slug: nextParts[0].data.slug,
+          title: nextParts[0].data.title,
+          part: nextParts[0].data.series!.part,
+        } : null,
+        prevPost: prevParts.length > 0 ? {
+          slug: prevParts[prevParts.length - 1].data.slug,
+          title: prevParts[prevParts.length - 1].data.title,
+          part: prevParts[prevParts.length - 1].data.series!.part,
+        } : null,
+      };
+    }
+
+    // 2. Recommendations resolution (explicit + smart tag affinity fallback)
+    const explicitRecommendations = post.data.recommendedPosts || post.data.recommendedBlogs || [];
+    let recommended = [];
+
+    if (explicitRecommendations.length > 0) {
+      recommended = allPosts.filter((p) => explicitRecommendations.includes(p.data.slug));
+    }
+
+    if (recommended.length < 2) {
+      const excludeSlugs = new Set([
+        post.data.slug,
+        ...recommended.map((r) => r.data.slug),
+        ...(seriesData ? seriesData.parts.map((p: any) => p.slug) : []),
+      ]);
+
+      const tagMatches = allPosts
+        .filter((p) => !excludeSlugs.has(p.data.slug))
+        .map((p) => {
+          const commonTags = p.data.tags.filter((t) => post.data.tags.includes(t)).length;
+          return { post: p, score: commonTags };
+        })
+        .sort((a, b) => b.score - a.score || b.post.data.publishDate.valueOf() - a.post.data.publishDate.valueOf())
+        .slice(0, 2 - recommended.length)
+        .map((item) => item.post);
+
+      recommended = [...recommended, ...tagMatches];
+    }
+
+    return {
+      params: { slug: post.data.slug },
+      props: {
+        post,
+        seriesData,
+        recommendedPosts: recommended.map((p) => p.data),
+      },
+    };
+  });
 }
 
-const { post } = Astro.props;
+const { post, seriesData, recommendedPosts } = Astro.props;
 const { Content, headings } = await render(post);
 ---
 
@@ -24,6 +92,8 @@ const { Content, headings } = await render(post);
   tags={post.data.tags}
   author={post.data.author}
   image={post.data.image || "/favicon.svg"}
+  seriesData={seriesData}
+  recommendedPosts={recommendedPosts}
 >
   <Content />
 </BlogLayout>

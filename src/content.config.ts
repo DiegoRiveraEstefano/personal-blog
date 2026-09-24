@@ -29,6 +29,12 @@ const posts = defineCollection({
     readTime: z.string().default("5 min"),
     image: z.string().optional(),
     recommendedBlogs: z.array(z.string()).optional(),
+    recommendedPosts: z.array(z.string()).optional(),
+    series: z.object({
+      id: z.string(),
+      title: z.string().optional(),
+      part: z.number().int().positive(),
+    }).optional(),
   }),
 });
 
